@@ -1,6 +1,5 @@
 import fsImport from 'fs'
 const fs = fsImport.promises
-import { PDFDocument } from 'pdf-lib'
 import { 
     Simulation, 
     File, 
@@ -9,7 +8,7 @@ import {
 } from '../interfaces'
 import { v4 as uuidv4 } from 'uuid'
 import getChapters, { shuffleChapters } from './chapterMethods'
-import { copyPagesToDoc } from './documents'
+import { copyPagesToDoc, initPdfDoc } from './documents'
 
 
 export async function createTempDir() {
@@ -17,11 +16,9 @@ export async function createTempDir() {
     const tempId = uuidv4()
     const tempFolderPath = `assets/temp/${tempId}`
 
-    const dir = await fs.mkdir(tempFolderPath)
-    return {
-        tempFolderPath,
-        dir
-    }
+    await fs.mkdir(tempFolderPath)
+
+    return tempFolderPath
 }
 
 export async function buildSimFiles(
@@ -41,7 +38,7 @@ export async function buildSimFiles(
         const {
             newDoc,
             fileInfo
-        } = await buildFile(simulations, options)
+        } = await buildFile(simulations, options, name)
 
         await fs.writeFile(`${tempFolderPath}/${name}.pdf`, newDoc)
         filesInfo.push(fileInfo)
@@ -55,11 +52,12 @@ export async function buildSimFiles(
 
 async function buildFile(
     simulations: Simulation[],
-    options: Options
+    options: Options,
+    name: string
     ) {
 
     // Initiate document
-    const pdfDoc = await PDFDocument.create()
+    const pdfDoc = await initPdfDoc(name)
 
     // Get chapters pages and names of each simulation
     let chapterArr: Chapter[] = []
@@ -86,4 +84,7 @@ async function buildFile(
         fileInfo
     }
 }
+
+
+
 

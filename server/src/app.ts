@@ -1,6 +1,6 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import createSimulations from './pdf-builder/methods';
+import createSimulations from './pdf-builder/services/createSImulations';
 
 const app: Application = express()
 
@@ -31,7 +31,7 @@ async function check() {
     ]
 
     const file = {
-        name: 'דצמבר 2014',
+        name: '2014' ,
         simulations
     }
 

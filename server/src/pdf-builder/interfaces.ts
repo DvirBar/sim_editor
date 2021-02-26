@@ -1,4 +1,4 @@
-import { PDFDocument } from 'pdf-lib'
+import { PDFDocument, PDFFont } from 'pdf-lib'
 
 export interface Simulation {
     year: string;
@@ -24,4 +24,11 @@ export interface GenObj {
 
 export interface Options {
     shuffleData: boolean
+}
+
+export interface TextConfig {
+    width?: number;
+    height?: number;
+    font: PDFFont,
+    fontSize: number;
 }
