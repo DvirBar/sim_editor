@@ -1,4 +1,4 @@
-import { GenObj } from "./pdf-builder/interfaces"
+import { GenObj } from "./interfaces"
 
 const data: GenObj = {
     years: {

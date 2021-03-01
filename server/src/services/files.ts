@@ -7,14 +7,16 @@ import {
     Options
 } from '../interfaces'
 import { v4 as uuidv4 } from 'uuid'
-import getChapters, { shuffleChapters } from './chapterMethods'
-import { copyPagesToDoc, initPdfDoc } from './documents'
-
+import buildChapters, { shuffleChapters } from './buildChapters'
+import { copyPagesToDoc, initPdfDoc } from './pdfDocs'
+import path from 'path'
+import config from 'config'
 
 export async function createTempDir() {
     // Create a temp folder with unique id
     const tempId = uuidv4()
-    const tempFolderPath = `assets/temp/${tempId}`
+    const assetsPath: string = config.get("assetsPath")
+    const tempFolderPath = path.join(assetsPath, 'temp', tempId)
 
     await fs.mkdir(tempFolderPath)
 
@@ -27,9 +29,10 @@ export async function buildSimFiles(
     options: Options) { 
 
     let filesInfo = []
-
+    
+    // Create simulation files and write them
     for(let file of files) {
-        // Create simulation files and write them
+        
         const {
             name, 
             simulations
@@ -62,7 +65,7 @@ async function buildFile(
     // Get chapters pages and names of each simulation
     let chapterArr: Chapter[] = []
     for(let simulation of simulations) {
-        const chapters = await getChapters(simulation)
+        const chapters = await buildChapters(simulation)
         chapterArr = [...chapterArr, ...chapters]
     }
 

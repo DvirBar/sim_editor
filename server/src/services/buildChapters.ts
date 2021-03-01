@@ -6,18 +6,23 @@ import {
     GenObj, 
     Chapter,
 } from '../interfaces'
-import data, { chaptersMap } from '../../data'
+import data, { chaptersMap } from '../data'
 import { numberSeries } from '../utils'
 import { shuffleFisherYates } from '../utils'
+import config from 'config'
+import path from 'path'
 
-async function getChapters(simulation: Simulation) {
+// Get chapter files by year, date and chapter names
+async function buildChapters(simulation: Simulation) {
     const {
         year,
         date,
         chapters: chapterNames
     } = simulation
 
-    const data = await fs.readFile(`assets/${year}/${date}.pdf`)
+    const assetsPath: string = config.get('assetsPath')
+
+    const data = await fs.readFile(path.join(assetsPath,`${year}/${date}.pdf`))
 
     const srcPdf = await PDFDocument.load(data)
     const mapYear = chaptersMap[year]
@@ -33,7 +38,7 @@ async function getChapters(simulation: Simulation) {
 
     let chapters: Chapter[] = []        
     for(let chapterName of chapterNames) {
-        const chapter = createChapter(
+        const chapter = getChapterDetails(
             year,
             date,
             chapterName,
@@ -48,7 +53,8 @@ async function getChapters(simulation: Simulation) {
     return chapters
 }
 
-function createChapter(
+
+function getChapterDetails(
     year: string,
     date: string,
     chapter: string,
@@ -88,4 +94,4 @@ export function shuffleChapters(chapterArr: Chapter[])  {
     return [...constChapters, ...shuffleFisherYates(chaptersToShuffle)]
 }
 
-export default getChapters
+export default buildChapters

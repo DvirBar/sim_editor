@@ -3,13 +3,17 @@ const fs = fsImport.promises
 import { PDFDocument, PDFFont, PDFPage } from 'pdf-lib'
 import { Chapter, TextConfig } from '../interfaces'
 import fontkit from '@pdf-lib/fontkit'
+import path from 'path'
+import config from 'config'
+
 
 export async function initPdfDoc(name: string) {
     const pdfDoc = await PDFDocument.create()
-    pdfDoc.registerFontkit(fontkit)
-
+    
     // Embed font
-    const fontBytes = await fs.readFile('assets/fonts/ARIAL.TTF')
+    pdfDoc.registerFontkit(fontkit)
+    const assetsPath: string = config.get("assetsPath")
+    const fontBytes = await fs.readFile(path.join(assetsPath, 'fonts/ARIAL.TTF'))
     const arialFont = await pdfDoc.embedFont(fontBytes)
 
     // Add first page with text
