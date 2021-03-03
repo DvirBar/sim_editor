@@ -1,0 +1,16 @@
+.main-block {
+    width: 80%;
+    align-self: center;
+
+    &__container {
+        box-shadow: var(--default-shadow);
+        border-radius: 0.5rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .mainBlock {
+        width: 100%;
+        padding: 1rem;
+    }
+}
