@@ -27,7 +27,7 @@ export function sliceString(str: string, fragment: string) {
         throw new Error(`Could not find ${fragment} in ${str}`)
     }
     const endOfFragIndex = fragIndex + fragment.length
-    const lastIndexOfStr = str.length - 1
+    const lastIndexOfStr = str.length
 
     const newStr = str.slice(0, fragIndex) + str.slice(endOfFragIndex, lastIndexOfStr)
 

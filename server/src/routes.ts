@@ -4,7 +4,6 @@ import Controllers from './controllers'
 import path from 'path'
 import { sliceString } from './utils'
 
-
 // @route   GET api/simList
 // @desc    Get available simulations and chapters
 router.get('/simList', 
@@ -21,6 +20,10 @@ async(req: Request, res: Response) => {
         files,
         options
     } = req.body
+
+    if(files.length === 0) {
+        res.status(400).send("Requires at least one file definition")
+    }
 
     try {
         const zipFilePath = await Controllers

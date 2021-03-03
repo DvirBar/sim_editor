@@ -18,3 +18,4 @@ app.use('/api', routes)
 const port = parseInt(<string>process.env.PORT) || 5000
 app.listen(port, () => console.log(`Server started on port ${port}`))
 
+export default app

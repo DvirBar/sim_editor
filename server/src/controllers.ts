@@ -3,7 +3,7 @@ import { buildSimFiles, createTempDir } from './services/files'
 import createZip from './services/zip'
 import { File, GenObj, Options } from './interfaces'
 
-class Controllers {
+export default class Controllers {
     static getData(): GenObj {
         return data
     }
@@ -23,5 +23,3 @@ class Controllers {
         return zipPath
     }
 }
-
-export default Controllers
