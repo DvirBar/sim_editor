@@ -2,10 +2,45 @@ import data from './data'
 import { buildSimFiles, createTempDir } from './services/files'
 import createZip from './services/zip'
 import { File, GenObj, Options } from './interfaces'
-
+import { getYearMonths, getMonths } from './utils'
+ 
 export default class Controllers {
     static getData(): GenObj {
-        return data
+        const {
+            years
+        } = data
+        /*
+        *  [ 
+            {
+                year: **,
+                months: [
+                    {
+                        id:
+                        name:
+                        chapters: [
+                            id: 
+                            name:
+                        ]
+                    }
+                ]
+            }
+        ]
+        *
+        */ 
+        let result = []
+    
+        for(let year = years.min; year <= years.max; year++) {
+            const yearMonths = getYearMonths(year)
+        
+            const months = getMonths(yearMonths, year)
+            
+            result.push({
+                year,
+                months
+            })
+        }
+    
+        return result
     }
 
     /* Creates simulation files requested, and sends 

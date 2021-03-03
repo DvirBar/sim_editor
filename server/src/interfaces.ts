@@ -32,3 +32,19 @@ export interface TextConfig {
     font: PDFFont,
     fontSize: number;
 }
+
+export interface SimData {
+    chaptersTranslate: GenObj
+    excludeChapters: GenObj
+    monthsList: Array<monthsList>
+    monthsTranslate: GenObj
+    years: GenObj,
+    chapters: Array<string>
+}
+
+interface monthsList {
+    min?: number
+    max?: number
+    isMax?: boolean
+    sims: Array<string> | Array<never>
+}

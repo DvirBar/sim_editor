@@ -1,3 +1,6 @@
+import data from "./data";
+import { GenObj } from "./interfaces";
+
 export function shuffleFisherYates(array: any[]) {
     let i = array.length;
     while (i--) {
@@ -32,4 +35,42 @@ export function sliceString(str: string, fragment: string) {
     const newStr = str.slice(0, fragIndex) + str.slice(endOfFragIndex, lastIndexOfStr)
 
     return newStr
+}
+
+export function getYearMonths(year: number) {
+    return data.monthsList.find(yearObj => 
+        yearObj.max && yearObj.min &&
+        year >= yearObj.min && year <= yearObj.max)?.sims || []
+}
+
+function getChapters(excludeArr: Array<string>) {
+    return data.chapters.filter(chapter => 
+        !excludeArr.includes(chapter))
+}
+
+export function getMonths(yearMonths: string[], year: number) {
+    const {
+        excludeChapters,
+        monthsTranslate,
+        chaptersTranslate,
+        chapters
+    } = data
+
+
+    return yearMonths.map(sim => {
+        const excludeArr: Array<string> | undefined = 
+            excludeChapters[year]?.[sim]
+        
+        const monthChapters =  excludeArr 
+            ? getChapters(excludeArr) : chapters
+
+        return {
+            id: sim,
+            name: monthsTranslate[sim],
+            chpaters: monthChapters.map(chapter => ({
+                id: chapter,
+                name: chaptersTranslate[chapter]
+            }))
+        }
+    })
 }

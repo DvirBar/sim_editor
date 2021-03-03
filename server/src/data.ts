@@ -1,6 +1,6 @@
-import { GenObj } from "./interfaces"
+import { SimData, GenObj } from "./interfaces"
 
-const data: GenObj = {
+const data: SimData = {
     years: {
         min: 2012,
         max: 2021
@@ -22,7 +22,7 @@ const data: GenObj = {
             sims: ["spring", "summer", "fall", "winter"]
         },
         {
-            months: [],
+            sims: [],
             isMax: true
         }
     ],
@@ -50,7 +50,8 @@ const data: GenObj = {
         'q2': 'כמותי 2',
         'e1': 'אנגלית 1',
         'e2': 'אנגלית 2'
-    }
+    },
+    chapters: ['essay', 'v1', 'v2', 'q1', 'q2', 'e1', 'e2']
 }
 
 export const chaptersMap: GenObj = {
