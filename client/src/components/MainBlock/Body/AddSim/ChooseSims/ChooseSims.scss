@@ -1,0 +1,20 @@
+.choose-sims {
+    height: 35rem;
+    width: 100%;
+    box-shadow: var(--default-shadow);
+    border-radius: 0.5rem;
+
+    &__header {
+        background-color: var(--main-color);
+        color: #fff;
+        padding: 1.5rem;
+        border-top-left-radius: 0.5rem;
+        border-top-right-radius: 0.5rem;
+        font-size: 1.5rem;
+    }
+
+    &__content {
+        display: grid;
+        grid-template-columns: 12rem auto;
+    }
+}

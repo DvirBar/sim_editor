@@ -67,7 +67,7 @@ export function getMonths(yearMonths: string[], year: number) {
         return {
             id: sim,
             name: monthsTranslate[sim],
-            chpaters: monthChapters.map(chapter => ({
+            chapters: monthChapters.map(chapter => ({
                 id: chapter,
                 name: chaptersTranslate[chapter]
             }))

@@ -9,24 +9,7 @@ export default class Controllers {
         const {
             years
         } = data
-        /*
-        *  [ 
-            {
-                year: **,
-                months: [
-                    {
-                        id:
-                        name:
-                        chapters: [
-                            id: 
-                            name:
-                        ]
-                    }
-                ]
-            }
-        ]
-        *
-        */ 
+      
         let result = []
     
         for(let year = years.min; year <= years.max; year++) {
