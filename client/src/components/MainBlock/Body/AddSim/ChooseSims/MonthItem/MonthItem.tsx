@@ -6,6 +6,7 @@ import { ExpandMore, ExpandLess } from '@material-ui/icons'
 
 interface IProps {
     monthItem: SimMonthItem
+    year: number
 }
 
 interface IState {
@@ -39,7 +40,9 @@ export default class MonthItem extends Component<IProps, IState> {
                         {this.props.monthItem.chapters?.map(chapterItem => 
                             <ChapterItem
                             key={chapterItem.id}
-                            chapterItem={chapterItem}/> 
+                            chapterItem={chapterItem}
+                            year={this.props.year}
+                            date={this.props.monthItem.id} /> 
                         )}
                     </List>
                 </Collapse>

@@ -41,7 +41,8 @@ export default class SimItem extends Component<IProps, IState> {
                         {this.props.simItem.months.map(monthItem => 
                             <MonthItem 
                             key={monthItem.id}
-                            monthItem={monthItem}/> 
+                            monthItem={monthItem}
+                            year={this.props.simItem.year}/> 
                         )}
                     </List>
                 </Collapse>
