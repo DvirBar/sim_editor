@@ -10,7 +10,10 @@ import SimProvider from './context/SimContext';
 const theme = createMuiTheme({
   palette: {
     primary: { 
-      main: '#0a1963',
+      main: '#3880eb',
+    },
+    secondary: {
+      main: '#fff'
     }
   },
   typography: {

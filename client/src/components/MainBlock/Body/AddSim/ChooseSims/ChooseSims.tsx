@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import SimsList from './SimsList/SimsList'
 import './ChooseSims.css'
+import ChosenChapters from './ChosenChapters/ChosenChapters'
 
 export default class ChooseSims extends Component {
     render() {
@@ -10,7 +11,8 @@ export default class ChooseSims extends Component {
                     בחרו סימולציות
                 </header>
                 <div className="choose-sims__content">
-                <SimsList />
+                    <SimsList />
+                    <ChosenChapters />
                 </div>
 
             </div>

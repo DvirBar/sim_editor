@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import AddSim from './AddSim/AddSim'
 import SimList from './SimList/SimList'
+import CreateSims from './CreateSims/CreateSims'
 import './Body.css'
 
 interface IProps {
@@ -10,14 +10,10 @@ interface IProps {
 
 
 export default class Body extends Component<IProps> {
-    constructor(props: IProps) {
-        super(props)
-    }
-
     render() {
         return (
             <div className="block-body">
-                {this.props.selectedTab === 0 && <AddSim />}
+                {this.props.selectedTab === 0 && <CreateSims />}
                 {this.props.selectedTab === 1 && <SimList />}
             </div>            
         )

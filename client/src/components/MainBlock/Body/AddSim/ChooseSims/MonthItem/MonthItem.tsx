@@ -40,9 +40,9 @@ export default class MonthItem extends Component<IProps, IState> {
                         {this.props.monthItem.chapters?.map(chapterItem => 
                             <ChapterItem
                             key={chapterItem.id}
-                            chapterItem={chapterItem}
+                            chapter={chapterItem}
                             year={this.props.year}
-                            date={this.props.monthItem.id} /> 
+                            date={this.props.monthItem} /> 
                         )}
                     </List>
                 </Collapse>

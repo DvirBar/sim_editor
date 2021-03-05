@@ -2,34 +2,39 @@ import { ListItem, ListItemText } from '@material-ui/core'
 import { Done } from '@material-ui/icons'
 import React, { Component } from 'react'
 import { SimContext } from '../../../../../../context/SimContext'
-import { SimChapterItem } from '../../../../../../interfaces/simData'
+import { composeId } from '../../../../../../context/utils'
+import { SimChapterItem, SimMonthItem } from '../../../../../../interfaces/simData'
 
 interface IProps {
-    chapterItem: SimChapterItem
+    chapter: SimChapterItem
     year: number
-    date: string
+    date: SimMonthItem
 }
 
 export default class ChapterItem extends Component<IProps> {
+    static contextType = SimContext
+    
     render() {
         const {
-            chapterItem,
+            chapter,
             year,
             date
         } = this.props
+
+        const context = this.context
+        const isSelected = context.selectedSims[composeId(year, date, chapter)]
+        
         return (
-            <SimContext.Consumer>
-                {context => 
-                    <ListItem onClick={() => 
-                    context.toggleSim(year, date, chapterItem.id, '1')} button>
-                        <ListItemText primary={this.props.chapterItem.name} />
-                        {context.selectedSims[year.toString() + date + chapterItem.id] &&
-                            <Done />
-                        }
-                    </ListItem>
+            <ListItem onClick={() => 
+            context.addSim(year, date, chapter)}
+            disabled={isSelected ? true : false}
+            button>
+                <ListItemText primary={this.props.chapter.name} />
+                {isSelected &&
+                    <Done />
                 }
-            </SimContext.Consumer>
-            
+            </ListItem>  
         )
     }
 }
+

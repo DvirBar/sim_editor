@@ -1,37 +1,67 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { SimData } from '../interfaces/simData'
-import { addSim, removeSim } from './utils'
+import { SimDataItem, SelectedSims, Documents, SimMonthItem, SimChapterItem } from '../interfaces/simData'
+import { v4 as uuidv4 } from 'uuid'
+import { removeFromObj } from '../utils/objects'
+import { composeId } from './utils'
 
 interface IProps {
     children: React.ReactNode
 }
 
-interface IState extends SimData {
-    toggleSim: (
+export interface SimContextState {
+    simData: Array<SimDataItem>
+    selectedSims: SelectedSims
+    selectedDoc: string
+    documents: Documents
+    addSim: (
         year: number, 
-        date: string, 
-        chapter: string,
-        doc: string) => void
+        date: SimMonthItem, 
+        chapter: SimChapterItem) => void
+
+    removeSim: (
+        year: number, 
+        date: SimMonthItem, 
+        chapter: SimChapterItem) => void
+    
+
+    createDoc: () => void
+    selectDoc: (id: string) => void
+    changeDocName: (id: string, name: string) => void
+    removeDoc: (id: string) => void
 }
 
-const defaultContext: IState = {
+const defaultContext: SimContextState = {
     simData: [],
     selectedSims: {},
-    toggleSim: () => {}
+    documents: {},
+    selectedDoc: '',
+    addSim: () => {},
+    removeSim: () => {},
+    createDoc: () => {},
+    selectDoc: () => {},
+    changeDocName: () => {},
+    removeDoc: () => {}
 }
 
 
-export const SimContext = React.createContext<IState>(defaultContext)
+export const SimContext = React.createContext<SimContextState>(defaultContext)
 
-export default class SimProvider extends Component<IProps, IState> {
+export default class SimProvider extends Component<IProps, SimContextState> {
     constructor(props: IProps) {
         super(props) 
 
         this.state = {
             simData: [],
             selectedSims: {},
-            toggleSim: this.toggleSim
+            selectedDoc: '',
+            documents: {},
+            addSim: this.addSim,
+            removeSim: this.removeSim,
+            createDoc: this.createDoc,
+            selectDoc: this.selectDoc,
+            changeDocName: this.changeDocName,
+            removeDoc: this.removeDoc
         }
     }
     
@@ -45,20 +75,65 @@ export default class SimProvider extends Component<IProps, IState> {
              .catch(err => console.log(err)) 
     }
 
-    toggleSim = (
-        year:number, 
-        date: string, 
-        chapter: string,
-        doc: string) => {
+    addSim = (
+        year: number, 
+        date: SimMonthItem, 
+        chapter: SimChapterItem) => {
+            this.setState(state => ({
+                selectedSims: {
+                    ...state.selectedSims,
+                    [composeId(year, date, chapter)]: {
+                        year,
+                        date,
+                        chapter,
+                        doc: this.state.selectedDoc
+                    }
+                }
+            }))
+    }
+
+    removeSim = (
+        year: number, 
+        date: SimMonthItem, 
+        chapter: SimChapterItem) => {
         this.setState(state => ({
-            selectedSims: state.selectedSims[
-                year.toString() + date + chapter
-            ] 
-            ? removeSim(year, date, chapter, state.selectedSims)
-            : addSim(year, date, chapter, doc, state.selectedSims)
+            selectedSims: removeFromObj(
+                state.selectedSims, 
+                composeId(year, date, chapter))
+        }))
+    }
+    
+
+    selectDoc = (id: string) => {
+        this.setState({
+            selectedDoc: id
+        })
+    }
+
+    createDoc = () => {
+        const id = uuidv4()
+        this.setState(state => ({
+            documents: {
+                ...state.documents,
+                [id]: ''
+            }
+        }), () => this.selectDoc(id))
+    }
+
+    changeDocName = (id:string, name: string) => {
+        this.setState(state => ({
+            documents: {
+                ...state.documents,
+                [id]: name
+            }
         }))
     }
 
+    removeDoc = (id: string) => {
+        this.setState(state => ({
+            documents: removeFromObj(state.documents, id)
+        }))
+    }
 
     render() {
         return (

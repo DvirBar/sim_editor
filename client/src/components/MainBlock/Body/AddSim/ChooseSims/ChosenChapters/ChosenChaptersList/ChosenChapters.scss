@@ -1,0 +1,39 @@
+.chosen-chapters {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+
+        &__item {
+            background-color: #fff;
+            width: 16rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            box-shadow: var(--default-shadow);
+            padding: 1.1rem;
+            border-radius: 0.5rem;
+            cursor: default;
+
+            &:hover > &--close {
+                display: block;
+            }
+
+            &__label {
+                justify-self: center;
+            }
+
+            &--close {
+                font-size: 1.5rem;
+                display: none;
+                justify-self: flex-end;
+                cursor: pointer;
+            }
+        }
+    }
+}

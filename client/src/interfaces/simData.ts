@@ -1,13 +1,18 @@
 export interface SimData {
     simData: Array<SimDataItem>
     selectedSims: SelectedSims
+    documents: Documents
+}
+
+export interface Documents {
+    [id: string]: string
 }
 
 export interface SelectedSims {
     [key: string]: {
         year: number
-        date: string
-        chapter: string
+        date: SimMonthItem
+        chapter: SimChapterItem
         doc: string
     }
 }
