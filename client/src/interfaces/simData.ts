@@ -13,7 +13,8 @@ export interface SelectedSims {
         year: number
         date: SimMonthItem
         chapter: SimChapterItem
-        doc: string
+        doc: string,
+        index: number
     }
 }
 

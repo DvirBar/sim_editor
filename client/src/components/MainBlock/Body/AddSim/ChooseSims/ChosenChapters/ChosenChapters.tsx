@@ -6,7 +6,7 @@ export default class ChosenChapters extends Component {
         return (
             <div className="chosen-chapters">
                 <ChosenChaptersList />
-            </div>                    
+            </div>            
         )
     }
 }

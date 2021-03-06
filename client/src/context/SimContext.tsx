@@ -3,7 +3,7 @@ import axios from 'axios'
 import { SimDataItem, SelectedSims, Documents, SimMonthItem, SimChapterItem } from '../interfaces/simData'
 import { v4 as uuidv4 } from 'uuid'
 import { removeFromObj } from '../utils/objects'
-import { composeId } from './utils'
+import { addChapterIndex, changeIndex, composeId } from './utils'
 
 interface IProps {
     children: React.ReactNode
@@ -22,13 +22,18 @@ export interface SimContextState {
     removeSim: (
         year: number, 
         date: SimMonthItem, 
-        chapter: SimChapterItem) => void
+        chapter: SimChapterItem,
+        index: number) => void
     
 
     createDoc: () => void
     selectDoc: (id: string) => void
     changeDocName: (id: string, name: string) => void
-    removeDoc: (id: string) => void
+    removeDoc: (id: string) => void,
+    changeSimIndex: (
+        simId: string, 
+        sourceIndex: number, 
+        destinationIndex: number) => void
 }
 
 const defaultContext: SimContextState = {
@@ -41,7 +46,8 @@ const defaultContext: SimContextState = {
     createDoc: () => {},
     selectDoc: () => {},
     changeDocName: () => {},
-    removeDoc: () => {}
+    removeDoc: () => {},
+    changeSimIndex: () => {}
 }
 
 
@@ -61,7 +67,8 @@ export default class SimProvider extends Component<IProps, SimContextState> {
             createDoc: this.createDoc,
             selectDoc: this.selectDoc,
             changeDocName: this.changeDocName,
-            removeDoc: this.removeDoc
+            removeDoc: this.removeDoc,
+            changeSimIndex: this.changeSimIndex
         }
     }
     
@@ -86,7 +93,8 @@ export default class SimProvider extends Component<IProps, SimContextState> {
                         year,
                         date,
                         chapter,
-                        doc: this.state.selectedDoc
+                        doc: state.selectedDoc,
+                        index: addChapterIndex(state.selectedSims, state.selectedDoc)
                     }
                 }
             }))
@@ -95,12 +103,23 @@ export default class SimProvider extends Component<IProps, SimContextState> {
     removeSim = (
         year: number, 
         date: SimMonthItem, 
-        chapter: SimChapterItem) => {
-        this.setState(state => ({
-            selectedSims: removeFromObj(
+        chapter: SimChapterItem,
+        index: number) => {
+        this.setState(state => {
+            const selectedSims = removeFromObj(
                 state.selectedSims, 
                 composeId(year, date, chapter))
-        }))
+
+            return {
+                ...state,
+                selectedSims: changeIndex(
+                    selectedSims, 
+                    state.selectedDoc,
+                    '',
+                    index,
+                    Infinity)
+            }
+        }, () => console.log(this.state.selectedSims))
     }
     
 
@@ -133,6 +152,26 @@ export default class SimProvider extends Component<IProps, SimContextState> {
         this.setState(state => ({
             documents: removeFromObj(state.documents, id)
         }))
+    }
+
+    changeSimIndex = (
+        simId: string, 
+        sourceIndex: number, 
+        destinationIndex: number) => {
+
+        if(destinationIndex === sourceIndex || 
+           typeof destinationIndex === "undefined") {  
+            return;
+        }
+        
+        this.setState(state => ({
+            selectedSims: changeIndex(
+                state.selectedSims,
+                state.selectedDoc,
+                simId,
+                sourceIndex,
+                destinationIndex)
+        }), () => console.log(this.state.selectedSims))
     }
 
     render() {
