@@ -1,4 +1,4 @@
-import { SelectedSims } from "../../../../../../../interfaces/simData";
+import { SelectedSims } from "../../../../../../interfaces/simData";
 
 export const createSortedArray = (selectedSims: SelectedSims, docId: string) => {
     let sortedSims = []

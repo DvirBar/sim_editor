@@ -1,0 +1,41 @@
+.chosen-chapters__list__item {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+    background-color: #fff;
+    width: 19rem;
+    box-shadow: var(--default-shadow);
+    padding: 1.1rem;
+    border-radius: 0.5rem;
+    cursor: default;
+    margin: 0.5rem 0;
+
+    &__title {
+        font-size: 1.2rem;
+        color: #888;
+    }
+
+    &__body {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &__label {
+            font-size: 1.4rem;
+            justify-self: center;
+        }
+
+        &--close {
+            font-size: 1.6rem;
+            display: none;
+            justify-self: flex-end;
+            cursor: pointer;
+        }
+    }
+
+    &:hover {
+        .chosen-chapters__list__item__body--close {
+            display: block;
+        }
+    }
+}

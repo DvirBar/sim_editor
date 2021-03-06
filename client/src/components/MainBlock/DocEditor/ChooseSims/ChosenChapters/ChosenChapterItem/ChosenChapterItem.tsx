@@ -1,8 +1,9 @@
 import { Close } from '@material-ui/icons'
 import React, { Component } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
-import { SimContext } from '../../../../../../../context/SimContext'
-import { GenObj } from '../../../../../../../interfaces/objects'
+import { SimContext } from '../../../../../../context/SimContext'
+import { GenObj } from '../../../../../../interfaces/objects'
+import './ChosenChapterItem.css'
 
 interface IProps {
     sim: GenObj

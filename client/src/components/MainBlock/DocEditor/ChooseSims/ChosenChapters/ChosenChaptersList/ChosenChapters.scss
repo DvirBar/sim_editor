@@ -1,0 +1,12 @@
+.chosen-chapters {
+    &__list {
+        display: flex;
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        padding: 2rem 0;
+        height: 30rem;
+        width: 100%;
+        overflow: auto;
+    }
+}

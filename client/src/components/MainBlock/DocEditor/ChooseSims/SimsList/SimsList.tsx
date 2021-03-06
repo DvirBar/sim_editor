@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { SimContext } from '../../../../../../context/SimContext'
+import { SimContext } from '../../../../../context/SimContext'
 import { List } from '@material-ui/core'
 import './SimsList.css'
-import SimItem from '../SimItem/SimItem'
+import SimItem from './SimItem/SimItem'
 
 export default class SimsList extends Component {
     render() {

@@ -1,6 +1,6 @@
 import { TextField } from '@material-ui/core'
 import React, { Component } from 'react'
-import './AddSim.css'
+import './DocEditor.css'
 import ChooseSims from './ChooseSims/ChooseSims'
 
 interface IProps {
@@ -9,7 +9,7 @@ interface IProps {
     selectedId: string 
 }
  
-export default class AddSim extends Component<IProps> {
+export default class DocEditor extends Component<IProps> {
     render() {
         const {
             changeDocName,

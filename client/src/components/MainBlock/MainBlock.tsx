@@ -1,7 +1,9 @@
-import React, { Component, ChangeEvent } from 'react';
-import Topbar from './Topbar/Topbar';
+import React, { Component } from 'react';
 import './MainBlock.css'
-import Body from './Body/Body';
+import { SimContext } from '../../context/SimContext';
+import { Button } from '@material-ui/core';
+import DocEditor from './DocEditor/DocEditor';
+import StagedDocs from './StagedDocs/StagedDocs';
 
 interface IProps {}
 
@@ -10,33 +12,35 @@ interface IState {
 }
 
 export default class MainBlock extends Component<IProps, IState> {
-    constructor(props: IProps) {
-        super(props)
-
-        this.state = {
-            selectedTab: 0
-        }
-    }
-
-    handleChange = (
-        event: ChangeEvent<{}>, 
-        value: number) => {
-
-        this.setState({
-            selectedTab: value
-        })
-    }
 
     render() {
         return (
-            <div className="main-block">
-                <div className="main-block__container">
-                    <Topbar 
-                    selectedTab={this.state.selectedTab}
-                    handleChange={this.handleChange} />
-                    <Body selectedTab={this.state.selectedTab} />
+            <SimContext.Consumer>
+                {context => 
+                <div className="main-block">
+                    <Button 
+                    onClick={() => context.createDoc()}
+                    className="main-block__create-button"
+                    variant="contained" color="primary">
+                        יצירת סימולציה
+                    </Button>
+                    
+                    {Object.keys(context.documents).length > 0 && 
+                        <div className="main-block__body">
+                            <DocEditor
+                            changeDocName={context.changeDocName}
+                            selectedId={context.selectedDoc}
+                            name={context.documents[context.selectedDoc]} />
+
+                            <StagedDocs 
+                            selected={context.selectedDoc}
+                            selectDoc={context.selectDoc}
+                            documents={context.documents} />
+                        </div>
+                    }
                 </div>
-            </div>
+                }
+            </SimContext.Consumer>
         )
     }
 }

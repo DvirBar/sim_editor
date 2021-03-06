@@ -1,6 +1,6 @@
 import { Button } from '@material-ui/core'
 import React, { Component } from 'react'
-import { Documents } from '../../../../interfaces/simData'
+import { Documents } from '../../../interfaces/simData'
 import './StagedDocs.css'
 
 interface IProps {

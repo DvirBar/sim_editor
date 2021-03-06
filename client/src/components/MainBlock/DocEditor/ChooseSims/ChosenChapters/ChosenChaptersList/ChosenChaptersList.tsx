@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { SimContext } from '../../../../../../../context/SimContext'
+import { SimContext } from '../../../../../../context/SimContext'
 import ChosenChapterItem from '../ChosenChapterItem/ChosenChapterItem'
 import "./ChosenChapters.css"
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'

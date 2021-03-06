@@ -86,18 +86,28 @@ export default class SimProvider extends Component<IProps, SimContextState> {
         year: number, 
         date: SimMonthItem, 
         chapter: SimChapterItem) => {
-            this.setState(state => ({
-                selectedSims: {
-                    ...state.selectedSims,
-                    [composeId(year, date, chapter)]: {
-                        year,
-                        date,
-                        chapter,
-                        doc: state.selectedDoc,
-                        index: addChapterIndex(state.selectedSims, state.selectedDoc)
+            this.setState(state => {
+                const newIndex = addChapterIndex(state.selectedSims, state.selectedDoc)
+
+                if(newIndex < 9) {
+                    return {
+                        ...state,
+                        selectedSims: {
+                            ...state.selectedSims,
+                            [composeId(year, date, chapter)]: {
+                                year,
+                                date,
+                                chapter,
+                                doc: state.selectedDoc,
+                                index: newIndex
+                            }
+                        }
                     }
                 }
-            }))
+
+                // Raise error
+                return state
+            })
     }
 
     removeSim = (
@@ -171,7 +181,7 @@ export default class SimProvider extends Component<IProps, SimContextState> {
                 simId,
                 sourceIndex,
                 destinationIndex)
-        }), () => console.log(this.state.selectedSims))
+        }))
     }
 
     render() {

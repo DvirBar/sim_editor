@@ -1,10 +1,22 @@
 .main-block {
     width: 80%;
     align-self: center;
+    box-shadow: var(--default-shadow);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    background-color: #fff;
 
-    &__container {
-        box-shadow: var(--default-shadow);
-        border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+
+    &__create-button {
+        align-self: flex-start;
+    }
+
+    &__body {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
     }
 }
 
