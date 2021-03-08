@@ -72,3 +72,17 @@ export const changeIndex = (
     return newObj
 }
 
+export const removeChaptersByDoc = (
+    docId: string, 
+    selectedSims: SelectedSims) => {
+
+    const newObj: SelectedSims = {}
+
+    for(let sim in selectedSims) {
+        if(selectedSims[sim].doc !== docId) {
+            newObj[sim] = selectedSims[sim]
+        }
+    }
+
+    return newObj
+}

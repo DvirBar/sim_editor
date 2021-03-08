@@ -6,6 +6,8 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import RTL from './components/RTL'
 import axios from 'axios'
 import SimProvider from './context/SimContext';
+import Alert from './components/Alert/Alert';
+import InfoProvider, { InfoContext } from './context/InfoContext';
 
 const theme = createMuiTheme({
   palette: {
@@ -30,12 +32,22 @@ function App() {
   return (
     <div dir="rtl" className="App">
       <ThemeProvider theme={theme}>
-        <SimProvider>
-          <RTL>
-            <Topbar />
-            <MainBlock />
-          </RTL>  
-        </SimProvider>
+        <InfoProvider>
+          <SimProvider>
+            <RTL>
+              <Topbar />
+              <MainBlock />
+              <InfoContext.Consumer>
+                {context => 
+                  <Alert 
+                  changeGenError={context.changeGenError}
+                  error={context.errors.genError} />
+                }
+              </InfoContext.Consumer>
+             
+            </RTL>  
+          </SimProvider>
+        </InfoProvider>
       </ThemeProvider>
     </div>
   );

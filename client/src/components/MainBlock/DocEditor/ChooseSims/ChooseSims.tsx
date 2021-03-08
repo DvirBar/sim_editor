@@ -8,7 +8,7 @@ export default class ChooseSims extends Component {
         return (
             <div className="choose-sims">
                 <header className="choose-sims__header">
-                    בחרו סימולציות
+                    בחרו פרקים
                 </header>
                 <div className="choose-sims__content">
                     <SimsList />

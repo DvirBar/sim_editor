@@ -10,11 +10,22 @@
         text-align: center;
     }
 
+    &__subtitle {
+        font-size: 1.5rem;
+        color: #aaa;
+        font-weight: 500;
+    }
+
     &__list {
         display: flex;
         flex-direction: column;
         row-gap: 1rem;
         padding: 0 2rem;
         width: 100%;
+
+        .no-name {
+            font-weight: 600;
+            font-style: italic;
+        }
     }
 }

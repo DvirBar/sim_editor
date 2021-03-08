@@ -1,31 +1,22 @@
-import { TextField } from '@material-ui/core'
 import React, { Component } from 'react'
 import './DocEditor.css'
 import ChooseSims from './ChooseSims/ChooseSims'
+import ModifyEditor from './ModifyEditor/ModifyEditor'
+import { SimContext } from '../../../context/SimContext'
 
-interface IProps {
-    changeDocName: (id: string, name: string) => void
-    name: string
-    selectedId: string 
-}
- 
-export default class DocEditor extends Component<IProps> {
+export default class DocEditor extends Component {
     render() {
-        const {
-            changeDocName,
-            name,
-            selectedId
-        } = this.props
-
         return (
-            <form className="add-sim">
-                <TextField 
-                id="outlined-basic"
-                value={name}
-                onChange={e => changeDocName(selectedId, e.target.value)} 
-                label="שם הסימולציה" />
+            <div className="doc-editor">
+                <SimContext.Consumer>
+                    {context => 
+                        <ModifyEditor 
+                        context={context}
+                        selectedDoc={context.selectedDoc} />                    
+                    }
+                </SimContext.Consumer>
                 <ChooseSims />
-            </form>
+            </div>
         )
     }
 }

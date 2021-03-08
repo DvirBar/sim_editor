@@ -1,0 +1,15 @@
+.modify-editor {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .remove-doc {
+        color: #777;
+        cursor: pointer;
+        align-self: flex-end;
+
+        &:hover {
+            color: #aaa;
+        }
+    }
+}

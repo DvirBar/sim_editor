@@ -1,0 +1,18 @@
+.no-chapters-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    row-gap: 2rem;
+    justify-content: center;
+
+    &__primary {
+        font-size: 2.3rem;
+    }
+
+    &__secondary {
+        color: #888;
+        font-weight: 600;
+    }
+}

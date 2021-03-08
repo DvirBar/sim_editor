@@ -3,20 +3,20 @@ import { SimContext } from '../../../../../../context/SimContext'
 import ChosenChapterItem from '../ChosenChapterItem/ChosenChapterItem'
 import "./ChosenChapters.css"
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import { createSortedArray } from './utils'
+import { GenObj } from '../../../../../../interfaces/objects'
 
-export default class ChosenChaptersList extends Component {
+interface IProps {
+    simsArray: Array<GenObj>
+}
+
+export default class ChosenChaptersList extends Component<IProps> {
     static contextType = SimContext
     
     render() {
         const {
-            selectedSims,
-            selectedDoc,
             changeSimIndex
         } = this.context
-        
-        const simsArray = createSortedArray(selectedSims, selectedDoc)
-
+    
         return (
             <DragDropContext 
             onDragEnd={result => 
@@ -26,8 +26,10 @@ export default class ChosenChaptersList extends Component {
                 result.destination?.index)}>
                 <Droppable droppableId="chosen-chapters">
                     {provided => (
-                        <div className="chosen-chapters__list" {...provided.droppableProps} ref={provided.innerRef}>
-                            {simsArray.map(simItem =>
+                        <div className="chosen-chapters__list" 
+                        {...provided.droppableProps} 
+                        ref={provided.innerRef}>
+                            {this.props.simsArray.map(simItem =>
                                 <ChosenChapterItem 
                                 id={simItem.id}
                                 sim={simItem} />

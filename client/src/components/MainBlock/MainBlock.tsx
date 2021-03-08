@@ -27,11 +27,12 @@ export default class MainBlock extends Component<IProps, IState> {
                     
                     {Object.keys(context.documents).length > 0 && 
                         <div className="main-block__body">
-                            <DocEditor
-                            changeDocName={context.changeDocName}
-                            selectedId={context.selectedDoc}
-                            name={context.documents[context.selectedDoc]} />
-
+                            {context.selectedDoc in context.documents
+                            ?   <DocEditor />
+                            :   <div className="main-block__body__no-doc">
+                                    <span>בחרו סימולציה</span>
+                                </div>
+                            }
                             <StagedDocs 
                             selected={context.selectedDoc}
                             selectDoc={context.selectDoc}

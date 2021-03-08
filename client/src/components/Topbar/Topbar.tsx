@@ -5,7 +5,9 @@ export default class Topbar extends Component {
     render() {
         return (
             <div className="topbar">
-                עורך סימולציות פסיכומטרי
+                <span>
+                    עורך סימולציות פסיכומטרי    
+                </span>
             </div>
         )
     }

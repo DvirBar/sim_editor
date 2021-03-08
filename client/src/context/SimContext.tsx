@@ -1,9 +1,19 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { SimDataItem, SelectedSims, Documents, SimMonthItem, SimChapterItem } from '../interfaces/simData'
+import { 
+    SimDataItem,
+    SelectedSims, 
+    Documents, 
+    SimMonthItem, 
+    SimChapterItem } from '../interfaces/simData'
 import { v4 as uuidv4 } from 'uuid'
 import { removeFromObj } from '../utils/objects'
-import { addChapterIndex, changeIndex, composeId } from './utils'
+import { 
+    addChapterIndex, 
+    changeIndex, 
+    composeId,
+    removeChaptersByDoc } from './utils'
+import { InfoContext } from './InfoContext'
 
 interface IProps {
     children: React.ReactNode
@@ -71,6 +81,8 @@ export default class SimProvider extends Component<IProps, SimContextState> {
             changeSimIndex: this.changeSimIndex
         }
     }
+
+    static contextType = InfoContext
     
     componentDidMount() {
         // Set loading
@@ -104,8 +116,8 @@ export default class SimProvider extends Component<IProps, SimContextState> {
                         }
                     }
                 }
-
-                // Raise error
+                
+                this.context.changeGenError('ניתן להוסיף עד 9 סימולציות')
                 return state
             })
     }
@@ -129,7 +141,7 @@ export default class SimProvider extends Component<IProps, SimContextState> {
                     index,
                     Infinity)
             }
-        }, () => console.log(this.state.selectedSims))
+        })
     }
     
 
@@ -140,13 +152,19 @@ export default class SimProvider extends Component<IProps, SimContextState> {
     }
 
     createDoc = () => {
-        const id = uuidv4()
-        this.setState(state => ({
-            documents: {
-                ...state.documents,
-                [id]: ''
-            }
-        }), () => this.selectDoc(id))
+        if(Object.keys(this.state.documents).length <= 10) {
+            const id = uuidv4()
+            this.setState(state => ({
+                documents: {
+                    ...state.documents,
+                    [id]: ''
+                }
+            }), () => this.selectDoc(id))
+        }
+        
+        else {
+            this.context.changeGenError('ניתן ליצור עד 10 סימולציות')
+        }
     }
 
     changeDocName = (id:string, name: string) => {
@@ -160,7 +178,8 @@ export default class SimProvider extends Component<IProps, SimContextState> {
 
     removeDoc = (id: string) => {
         this.setState(state => ({
-            documents: removeFromObj(state.documents, id)
+            documents: removeFromObj(state.documents, id),
+            selectedSims: removeChaptersByDoc(state.selectedDoc, state.selectedSims)
         }))
     }
 
