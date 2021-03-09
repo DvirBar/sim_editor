@@ -45,6 +45,12 @@ router.post("/generateSimulations", async (req: Request, res: Response) => {
 
             catch(err) {
                 console.error(err);
+
+                // Cleanup - remove created folder if created
+                if(tempFolderPath) {
+                    fs.rmdirSync(tempFolderPath, { recursive: true })
+                    console.log(`Successful cleanup for ${tempFolderPath}`)
+                }
             }
         });
 

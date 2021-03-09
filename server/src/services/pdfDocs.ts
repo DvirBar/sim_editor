@@ -1,23 +1,28 @@
 import fsImport from 'fs'
 const fs = fsImport.promises
-import { PDFDocument, PDFFont, PDFPage } from 'pdf-lib'
-import { Chapter, TextConfig } from '../interfaces'
-import fontkit from '@pdf-lib/fontkit'
 import path from 'path'
-import config from 'config'
+import { PDFDocument, PDFPage } from 'pdf-lib'
+import { Chapter } from '../interfaces'
+import { createCanvas } from 'canvas'
 
 
-export async function initPdfDoc(name: string) {
+export async function initPdfDoc(
+    name: string,
+    folderPath: string) {
     const pdfDoc = await PDFDocument.create()
-    
-    // Embed font
-    pdfDoc.registerFontkit(fontkit)
-    const assetsPath: string = config.get("assetsPath")
-    const fontBytes = await fs.readFile(path.join(assetsPath, 'fonts/ARIAL.TTF'))
-    const arialFont = await pdfDoc.embedFont(fontBytes)
 
     // Add first page with text
     const page = pdfDoc.addPage()
+
+    // Create text image and add it to the first page
+    const imagePath = await addTitle(name, page, folderPath)
+    const jpegBytes = await fs.readFile(imagePath)
+    
+    const jpegImage = await pdfDoc.embedPng(jpegBytes)
+    page.drawImage(jpegImage)
+    
+    // Delete text image
+    await fs.unlink(imagePath)
 
     // Add blank page
     pdfDoc.addPage()
@@ -25,28 +30,31 @@ export async function initPdfDoc(name: string) {
     return pdfDoc
 }
 
-export function writeToPage(
-    text: string, 
-    page: PDFPage, 
-    options: TextConfig) {
+export async function addTitle(
+    name: string, 
+    page: PDFPage,
+    folderPath: string) {
+    const { width, height } = page.getSize()
 
-    const { 
-        width, 
-        height, 
-        font, 
-        fontSize } = options
+    const canvas = createCanvas(width, height)
+    const context = canvas.getContext('2d')
 
-    const { 
-        width: pageWidth, 
-        height: pageHeight } = page.getSize() 
-    
+    context.fillStyle = '#fff'
+    context.fillRect(0, 0, width, height)
 
-    page.drawText(text, {
-        x: width || pageWidth/2 - (fontSize*text.length)/2,
-        y: height || pageHeight/2,
-        size: fontSize,
-        font: font,
-    })
+    context.font = '80px Arial'
+    context.textAlign = 'center'
+    context.fillStyle = "#000"
+    const text = 'סימולציה'
+    context.fillText(text, width/2, height/2)
+
+    context.font = '40px Arial'
+    context.fillText(name, width/2, height/2 + 100)
+    const buffer = canvas.toBuffer()
+    const imagePath = path.join(folderPath, 'title.png')
+    await fs.writeFile(imagePath, buffer)
+
+    return imagePath
 } 
 
 

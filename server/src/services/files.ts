@@ -55,7 +55,7 @@ async function buildFile(
     name: string,
     tempFolderPath: string) {
     // Initiate document
-    const pdfDoc = await initPdfDoc(name)
+    const pdfDoc = await initPdfDoc(name, tempFolderPath)
 
     let chapterArr = await iterateSimulations(simulations)
 
