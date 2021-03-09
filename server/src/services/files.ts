@@ -26,48 +26,38 @@ export async function createTempDir() {
 export async function buildSimFiles(
     tempFolderPath: string,
     files: File[], 
-    options: Options) { 
+    options: Options) {
 
-    let filesInfo = []
-    
+    let promises = []
+
     // Create simulation files and write them
     for(let file of files) {
-        
         const {
             name, 
             simulations
         } = file
-
-        const {
-            newDoc,
-            fileInfo
-        } = await buildFile(simulations, options, name)
-
-        await fs.writeFile(`${tempFolderPath}/${name}.pdf`, newDoc)
-        filesInfo.push(fileInfo)
-
-        console.log(`Created simulation ${name} at ${tempFolderPath}`);
+        promises.push(
+            buildFile(
+                simulations, 
+                options, 
+                name, 
+                tempFolderPath)
+        )
     }
 
-    return filesInfo
-} 
-
+    return Promise.all(promises)
+            .then(filesInfo => filesInfo)
+}
 
 async function buildFile(
     simulations: Simulation[],
     options: Options,
-    name: string
-    ) {
-
+    name: string,
+    tempFolderPath: string) {
     // Initiate document
     const pdfDoc = await initPdfDoc(name)
 
-    // Get chapters pages and names of each simulation
-    let chapterArr: Chapter[] = []
-    for(let simulation of simulations) {
-        const chapters = await buildChapters(simulation)
-        chapterArr = [...chapterArr, ...chapters]
-    }
+    let chapterArr = await iterateSimulations(simulations)
 
     // Shuffle array if requested 
     if(options.shuffleData) {
@@ -82,10 +72,27 @@ async function buildFile(
 
     const newDoc = await writtenDoc.save()
 
-    return {
-        newDoc,
-        fileInfo
+    await fs.writeFile(`${tempFolderPath}/${name}.pdf`, newDoc)
+
+    return fileInfo 
+}
+
+async function iterateSimulations(simulations: Simulation[]) {
+    let promises = []
+    for(let simulation of simulations) {
+        promises.push(buildChapters(simulation))
     }
+
+    return Promise.all(promises)
+           .then(chpatersArr => {
+               let chapters: Chapter[] = []
+
+               for(let chaptersItem of chpatersArr) {
+                   chapters = [...chapters, ...chaptersItem]
+               }
+
+               return chapters
+           })
 }
 
 

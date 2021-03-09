@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 const router = express.Router();
+import fs from 'fs'
 import Controllers from "./controllers";
 import path from "path";
 import { sliceString } from "./utils";
@@ -21,11 +22,33 @@ router.post("/generateSimulations", async (req: Request, res: Response) => {
     }
 
     try {
-        const zipFilePath = await Controllers.createSimulations(files, options);
+        const {
+            zipPath,
+            tempFolderPath
+        } = await Controllers.createSimulations(files, options);
 
         const dirname = sliceString(__dirname, "src");
+        
+        res.download(path.join(dirname, zipPath), 'mySimulations.zip', err => {
+            console.log("Sent zip file");
+            
+            
+            if(err) {
+                console.error(err)
+            }
 
-        return res.download(path.join(dirname, zipFilePath), 'mySimulations.zip');
+            try {
+                fs.rmdirSync(tempFolderPath, { recursive: true })
+
+                console.log(`Deleted ${tempFolderPath} successfully`); 
+            }
+
+            catch(err) {
+                console.error(err);
+            }
+        });
+
+        
     } catch (err) {
         console.error(err);
         return res.status(500).send("Internal server error");

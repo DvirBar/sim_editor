@@ -34,10 +34,12 @@ export default class Controllers {
         const tempFolderPath = await createTempDir()
     
         const filesInfo = await buildSimFiles(tempFolderPath, files, options)
-        
         // Zip files
         const zipPath = await createZip(tempFolderPath)
 
-        return zipPath
+        return {
+            zipPath,
+            tempFolderPath
+        }
     }
 }
