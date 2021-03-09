@@ -22,7 +22,7 @@ export default class MainBlock extends Component<IProps, IState> {
                     onClick={() => context.createDoc()}
                     className="main-block__create-button"
                     variant="contained" color="primary">
-                        יצירת סימולציה
+                        סימולציה חדשה
                     </Button>
                     
                     {Object.keys(context.documents).length > 0 && 

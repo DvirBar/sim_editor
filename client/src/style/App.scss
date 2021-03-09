@@ -27,4 +27,13 @@ body {
     display: flex;
     flex-direction: column;
     row-gap: 5rem;
+    margin-bottom: 5rem;
+}
+
+.main-container {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    row-gap: 3rem;
+    width: 80%;
 }

@@ -24,11 +24,9 @@
     display: flex;
     flex-direction: row-reverse;
     padding: 1rem;
-    width: 25rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 10rem;
+    width: 30rem;
+    word-wrap: break-word;
+    min-height: 10rem;
     z-index: 1;
     background-color: #fff;
     color: #777;
@@ -50,6 +48,12 @@
 
     &.shake {
         animation: shake 0.5s linear;
+    }
+}
+
+@media (max-width: 300px) {
+    .alert {
+        width: 100%;
     }
 }
 

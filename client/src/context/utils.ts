@@ -1,4 +1,9 @@
-import { SelectedSims, SimChapterItem, SimMonthItem } from '../interfaces/simData'
+import axios from 'axios'
+import { DocErrorType, Errors } from '../interfaces/info'
+import { GenObj } from '../interfaces/objects'
+import { Documents, SelectedSims, SimChapterItem, SimDataOptions, SimMonthItem } from '../interfaces/simData'
+import { objectTOArray } from '../utils/objects'
+import { InfoContextState } from './InfoContext'
 
 export const composeId = (
     year: number, 
@@ -85,4 +90,115 @@ export const removeChaptersByDoc = (
     }
 
     return newObj
+}
+
+export const composeDocsUtil = async(
+    documents: Documents,
+    selectedSims: SelectedSims,
+    context: InfoContextState,
+    options: SimDataOptions) => {
+    if(Object.keys(documents).length === 0) {
+        context.changeGenError('יש ליצור סימולציות לפני השליחה')
+        return
+    }
+
+    const {
+        files,
+        errors
+    } = composeSimulationsArray(documents, selectedSims, context)
+    
+    context.assignErrors(errors)
+    
+    if(!context.hasErrors(errors)) {
+        const body = JSON.stringify({
+            files,
+            options
+        })
+        
+        return axios
+        .post('/api/generateSimulations', body, {
+            responseType: 'blob'
+        })
+        .then(res => {
+            const blob = new Blob([res.data])
+            const url = URL.createObjectURL(blob)
+
+            return url
+        })
+        .catch(err => {
+            context.changeGenError('התרחשה תקלה בזמן הפקת הקובץ')})
+    }
+}
+
+
+export const composeSimulationsArray = (
+    documents: Documents,
+    selectedSims: SelectedSims,
+    context: InfoContextState) => {
+    
+    let errors: Errors = {
+        genError: '',
+        docErrors: {}
+    }
+
+    let files = []
+
+    for(let doc in documents) {
+        if(documents[doc] === '') {
+            errors = context.changeDocError(doc, DocErrorType.NameError, 'יש לבחור שם לסימולציה', errors)
+        }
+
+        let simulations: GenObj = {}
+        for(let sim in selectedSims) {
+            const {
+                year,
+                date,
+                chapter,
+                doc: simDoc
+            } = selectedSims[sim]
+        
+            if(simDoc === doc) {
+                let thisSim = simulations[year.toString() + date.id]
+                if(thisSim) {
+                    simulations[year.toString() + date.id] = {
+                        ...thisSim,
+                        chapters: [...thisSim.chapters, chapter.id]
+                    }
+                }
+
+                else {
+                    simulations[year.toString() + date.id] = {
+                        year,
+                        date: date.id,
+                        chapters: [chapter.id]
+                    }
+                } 
+            }
+        }
+
+        if(Object.keys(simulations).length === 0) {
+            errors = context.changeDocError(
+                doc,
+                DocErrorType.ChaptersError,
+                'הסימולציה ריקה, יש לבחור פרקים',
+                errors
+            )
+        }
+
+        else {
+            // Transform simulations object to array
+            const simArr = objectTOArray(simulations)
+
+            files.push({
+                name: documents[doc],
+                simulations: simArr
+            })
+        }
+    }
+
+
+    return {
+        files,
+        errors
+    }
 }

@@ -8,6 +8,7 @@ import axios from 'axios'
 import SimProvider from './context/SimContext';
 import Alert from './components/Alert/Alert';
 import InfoProvider, { InfoContext } from './context/InfoContext';
+import SendDocs from './components/SendDocs/SendDocs';
 
 const theme = createMuiTheme({
   palette: {
@@ -36,7 +37,10 @@ function App() {
           <SimProvider>
             <RTL>
               <Topbar />
-              <MainBlock />
+              <div className="main-container">
+                <MainBlock />
+                <SendDocs />
+              </div>
               <InfoContext.Consumer>
                 {context => 
                   <Alert 
@@ -44,7 +48,6 @@ function App() {
                   error={context.errors.genError} />
                 }
               </InfoContext.Consumer>
-             
             </RTL>  
           </SimProvider>
         </InfoProvider>

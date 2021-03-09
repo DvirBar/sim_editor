@@ -31,9 +31,7 @@ export default class Alert extends Component<IProps, IState> {
     setCloseTimeOut = () => {
         this.timerID = 
             window.setTimeout(() => 
-                this.setState({ 
-                    open: false
-                }, () => this.props.changeGenError(''))    
+                this.closeAlert()    
             , 5000)
     }
 
@@ -48,7 +46,8 @@ export default class Alert extends Component<IProps, IState> {
     closeAlert = () => {
         this.setState({
             open: false
-        }, () => this.props.changeGenError(''))
+        }, () => this.timerID = window.setTimeout(() => 
+        this.props.changeGenError(''), 300))
     }
     
 

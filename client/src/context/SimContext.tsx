@@ -11,6 +11,7 @@ import { removeFromObj } from '../utils/objects'
 import { 
     addChapterIndex, 
     changeIndex, 
+    composeDocsUtil, 
     composeId,
     removeChaptersByDoc } from './utils'
 import { InfoContext } from './InfoContext'
@@ -44,6 +45,7 @@ export interface SimContextState {
         simId: string, 
         sourceIndex: number, 
         destinationIndex: number) => void
+    composeDocs: () => Promise<string | void>
 }
 
 const defaultContext: SimContextState = {
@@ -57,7 +59,8 @@ const defaultContext: SimContextState = {
     selectDoc: () => {},
     changeDocName: () => {},
     removeDoc: () => {},
-    changeSimIndex: () => {}
+    changeSimIndex: () => {},
+    composeDocs: async() => {}
 }
 
 
@@ -78,7 +81,8 @@ export default class SimProvider extends Component<IProps, SimContextState> {
             selectDoc: this.selectDoc,
             changeDocName: this.changeDocName,
             removeDoc: this.removeDoc,
-            changeSimIndex: this.changeSimIndex
+            changeSimIndex: this.changeSimIndex,
+            composeDocs: this.composeDocs
         }
     }
 
@@ -98,28 +102,29 @@ export default class SimProvider extends Component<IProps, SimContextState> {
         year: number, 
         date: SimMonthItem, 
         chapter: SimChapterItem) => {
-            this.setState(state => {
-                const newIndex = addChapterIndex(state.selectedSims, state.selectedDoc)
 
-                if(newIndex < 9) {
-                    return {
-                        ...state,
-                        selectedSims: {
-                            ...state.selectedSims,
-                            [composeId(year, date, chapter)]: {
-                                year,
-                                date,
-                                chapter,
-                                doc: state.selectedDoc,
-                                index: newIndex
-                            }
+        this.setState(state => {
+            const newIndex = addChapterIndex(state.selectedSims, state.selectedDoc)
+
+            if(newIndex < 9) {
+                return {
+                    ...state,
+                    selectedSims: {
+                        ...state.selectedSims,
+                        [composeId(year, date, chapter)]: {
+                            year,
+                            date,
+                            chapter,
+                            doc: state.selectedDoc,
+                            index: newIndex
                         }
                     }
                 }
-                
-                this.context.changeGenError('ניתן להוסיף עד 9 סימולציות')
-                return state
-            })
+            }
+            
+            this.context.changeGenError('ניתן להוסיף עד 9 סימולציות')
+            return state
+        })
     }
 
     removeSim = (
@@ -201,6 +206,19 @@ export default class SimProvider extends Component<IProps, SimContextState> {
                 sourceIndex,
                 destinationIndex)
         }))
+    }
+
+    composeDocs = async() => {
+        const url = await composeDocsUtil(
+            this.state.documents,
+            this.state.selectedSims,
+            this.context,
+            {
+                shuffleData: true
+            }
+        )
+
+        return url
     }
 
     render() {

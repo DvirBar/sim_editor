@@ -25,7 +25,7 @@ router.post("/generateSimulations", async (req: Request, res: Response) => {
 
         const dirname = sliceString(__dirname, "src");
 
-        return res.sendFile(path.join(dirname, zipFilePath));
+        return res.download(path.join(dirname, zipFilePath), 'mySimulations.zip');
     } catch (err) {
         console.error(err);
         return res.status(500).send("Internal server error");

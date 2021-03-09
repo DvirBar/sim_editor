@@ -4,6 +4,10 @@ export interface SimData {
     documents: Documents
 }
 
+export interface SimDataOptions {
+    shuffleData: boolean
+}
+
 export interface Documents {
     [id: string]: string
 }

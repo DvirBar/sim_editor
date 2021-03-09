@@ -1,4 +1,4 @@
-import { GenObj } from "../interfaces/objects";
+import { GenObj, ObjOfObjects } from "../interfaces/objects";
 
 export const removeFromObj = (obj: GenObj, key: string) => {
     const newObj: GenObj = {}
@@ -10,4 +10,27 @@ export const removeFromObj = (obj: GenObj, key: string) => {
     }
 
     return newObj
+}
+
+export const objectTOArray = (obj: ObjOfObjects, keyName?: string) => {
+    let arr = []
+    
+    for(let key in obj) {
+        let objItem: GenObj
+        
+        if(keyName) {
+            objItem = {
+                [keyName]: key,
+                ...obj[key]
+            }
+        }
+        
+        else {
+            objItem = obj[key]
+        }
+
+        arr.push(objItem)
+    }
+
+    return arr
 }
