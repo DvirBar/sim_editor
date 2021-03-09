@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import './style/App.css';
 import Topbar from './components/Topbar/Topbar';
 import MainBlock from './components/MainBlock/MainBlock';
@@ -6,9 +6,10 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import RTL from './components/RTL'
 import axios from 'axios'
 import SimProvider from './context/SimContext';
-import Alert from './components/Alert/Alert';
+import Alert from './components/Layout/Alert/Alert';
 import InfoProvider, { InfoContext } from './context/InfoContext';
 import SendDocs from './components/SendDocs/SendDocs';
+import Loading from './components/Layout/Loading/Loading';
 
 const theme = createMuiTheme({
   palette: {
@@ -43,9 +44,15 @@ function App() {
               </div>
               <InfoContext.Consumer>
                 {context => 
-                  <Alert 
-                  changeGenError={context.changeGenError}
-                  error={context.errors.genError} />
+                  <Fragment>
+                    <Alert 
+                    changeGenError={context.changeGenError}
+                    error={context.errors.genError} />
+                    {context.loading.status &&
+                      <Loading 
+                      message={context.loading.message} />
+                    }
+                  </Fragment>
                 }
               </InfoContext.Consumer>
             </RTL>  

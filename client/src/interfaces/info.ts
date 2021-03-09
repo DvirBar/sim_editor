@@ -12,3 +12,8 @@ export interface Errors {
         }
     }
 }
+
+export interface Loading {
+    status: boolean
+    message: string
+}

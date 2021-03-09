@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { DocErrorType, Errors } from '../interfaces/info'
+import { DocErrorType, Errors, Loading } from '../interfaces/info'
 
 interface IProps {
     children: React.ReactNode
 }
 
 export interface InfoContextState {
-    loading: boolean,
+    loading: Loading,
     errors: Errors,
     changeGenError: (error: string) => void
     changeDocError: (
@@ -15,13 +15,16 @@ export interface InfoContextState {
         error: string,
         errors: Errors) => Errors,
     assignErrors: (errors: Errors) => void
-    setLoading: (status: boolean) => void
+    setLoading: (status: boolean, message?: string) => void
     resetErrors: () => Promise<void>
     hasErrors: (errors: Errors) => boolean
 }
 
 const defaultContext: InfoContextState = {
-    loading: false,
+    loading: {
+        status: false,
+        message: ''
+    },
     errors: {
         genError: '',
         docErrors: {}
@@ -49,6 +52,7 @@ export default class InfoProvider extends Component<IProps, InfoContextState> {
             changeGenError: this.changeGenError,
             changeDocError: this.changeDocError,
             assignErrors: this.assignErrors,
+            setLoading: this.setLoading,
             resetErrors: this.resetErrors,
             hasErrors: this.hasErrors
         }
@@ -109,9 +113,20 @@ export default class InfoProvider extends Component<IProps, InfoContextState> {
         return genError !== '' || Object.keys(docErrors).length > 0
     }
 
-    setLoading = (status: boolean) => {
+    setLoading = (status: boolean, message?: string) => {
+        // Value to cleanup message when finished loading
+        const cleanupMessage = ''
+
+        /* Message to display if status is true 
+            and no message provided */
+        const defaultMessage = 'בטעינה'
+
         this.setState({
-            loading: status
+            loading: {
+                status,
+                message: status 
+                ? message || defaultMessage : cleanupMessage
+            }
         })
     }
 

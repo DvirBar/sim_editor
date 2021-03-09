@@ -1,21 +1,16 @@
-import { Button } from '@material-ui/core'
 import React, { Component } from 'react'
 import { Documents } from '../../../interfaces/simData'
+import StagedDocItem from './StagedDocItem/StagedDocItem'
 import './StagedDocs.css'
 
 interface IProps {
-    selected: string
-    selectDoc: (id: string) => void
     documents: Documents
 }
 
 export default class StagedDocs extends Component<IProps> {
-
     render() { 
         const {
-            documents,
-            selectDoc,
-            selected
+            documents
         } = this.props
         
         return (
@@ -28,20 +23,15 @@ export default class StagedDocs extends Component<IProps> {
                         ניתן ליצור עד 10 סימולציות
                     </p>
                 </div>
+
                 <div className="staged-docs__list">
                     {Object.keys(documents).map(key =>
-                        <Button
-                        color={selected === key 
-                            ? 'primary' : 'secondary'} 
-                        variant="contained"
-                        className={documents[key] === '' ? 'no-name' : ''}
-                        onClick={() => selectDoc(key)}>
-                            {documents[key] === '' 
-                            ? '- ללא שם -' : documents[key]}
-                        </Button>    
+                        <StagedDocItem 
+                        key={key}
+                        id={key} />
                     )}
                 </div>
-            </div>        
+            </div>
         )
     }
 }

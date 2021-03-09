@@ -1,6 +1,7 @@
 import { Button } from '@material-ui/core'
 import React, { Component } from 'react'
 import { SimContext } from '../../context/SimContext'
+import './SendDocs.css'
 
 interface IProps {}
 interface IState {
@@ -57,10 +58,10 @@ export default class SendDocs extends Component<IProps, IState> {
 
                         {this.state.downloadLink &&
                             <div className="try-donwload-again">
-                                <span>ההורדה תחל אוטומטית. אם ההורדה לא החלה&nbsp;</span>
+                                <span>ההורדה החלה. אם היא לא החלה, &nbsp;</span>
                                 <a href={this.state.downloadLink} download="mySimulations.zip">
                                     לחצו כאן
-                                </a>
+                                </a>.
                             </div>                      
                         }
                     </div>

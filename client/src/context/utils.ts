@@ -97,6 +97,8 @@ export const composeDocsUtil = async(
     selectedSims: SelectedSims,
     context: InfoContextState,
     options: SimDataOptions) => {
+    context.setLoading(true, 'בודק את הסימולציות')
+
     if(Object.keys(documents).length === 0) {
         context.changeGenError('יש ליצור סימולציות לפני השליחה')
         return
@@ -110,6 +112,9 @@ export const composeDocsUtil = async(
     context.assignErrors(errors)
     
     if(!context.hasErrors(errors)) {
+        context.setLoading(
+            true, 
+            'מפיק את הסימולציות, זה עשוי לקחת קצת זמן. ההורדה תחל אוטומטית.')
         const body = JSON.stringify({
             files,
             options

@@ -1,0 +1,10 @@
+.staged-docs__list {
+    .no-name {
+        font-weight: 600;
+        font-style: italic;
+    }
+
+    .error {
+        border: 3px solid var(--alert-color);
+    }
+}

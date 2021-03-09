@@ -1,6 +1,7 @@
 import { TextField } from '@material-ui/core'
 import { Delete } from '@material-ui/icons'
 import React, { Component } from 'react'
+import { InfoContext } from '../../../../context/InfoContext'
 import { SimContextState } from '../../../../context/SimContext'
 import './ModifyEditor.css'
 
@@ -51,17 +52,25 @@ export default class ModifyEditor extends Component<IProps, IState> {
         } = this.props
         
         return (
-            <div className="modify-editor">
-                <TextField 
-                id="outlined-basic"
-                value={this.state.name}
-                onChange={e => this.changeName(e.target.value)} 
-                onBlur={() => this.changeDocName()}
-                label="שם הסימולציה" />
-                <Delete 
-                onClick={() => context.removeDoc(selectedDoc)}
-                className="remove-doc" />
-            </div>
+            <InfoContext.Consumer>
+                {infoContext =>
+                    <div className="modify-editor">
+                        <TextField 
+                        id="outlined-basic"
+                        value={this.state.name}
+                        onChange={e => this.changeName(e.target.value)} 
+                        onBlur={() => this.changeDocName()}
+                        error={infoContext.errors.docErrors[selectedDoc]?.NameError 
+                            ? true : false}
+                        helperText={infoContext.errors.docErrors[selectedDoc]?.NameError}
+                        label="שם הסימולציה" />
+                        <Delete 
+                        onClick={() => context.removeDoc(selectedDoc)}
+                        className="remove-doc" />
+                    </div>
+                }
+            </InfoContext.Consumer>
+            
         )
     }
 }

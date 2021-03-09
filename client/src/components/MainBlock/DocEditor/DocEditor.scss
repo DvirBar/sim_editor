@@ -5,4 +5,12 @@
     align-items: flex-start;
     padding-left: 2rem;
     border-left: 1px solid #97979785;
+
+    .errors {
+        background-color: var(--alert-color);
+        color: #fff;
+        padding: 1rem;
+        text-align: center;
+        border-radius: 0.5rem;
+    }
 }

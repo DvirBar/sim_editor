@@ -93,9 +93,9 @@ export default class SimProvider extends Component<IProps, SimContextState> {
         axios.get('/api/simList')
              .then(res => {
                  this.setState({ simData: res.data })
-                 console.log(res.data)
              })
-             .catch(err => console.log(err)) 
+             .catch(err => 
+                this.context.changeGenError('התרחשה תקלה, נסו לרענן את הדף')) 
     }
 
     addSim = (
@@ -157,7 +157,7 @@ export default class SimProvider extends Component<IProps, SimContextState> {
     }
 
     createDoc = () => {
-        if(Object.keys(this.state.documents).length <= 10) {
+        if(Object.keys(this.state.documents).length < 10) {
             const id = uuidv4()
             this.setState(state => ({
                 documents: {
@@ -218,6 +218,7 @@ export default class SimProvider extends Component<IProps, SimContextState> {
             }
         )
 
+        this.context.setLoading(false)
         return url
     }
 

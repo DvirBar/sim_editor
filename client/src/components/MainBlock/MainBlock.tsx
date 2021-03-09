@@ -34,8 +34,6 @@ export default class MainBlock extends Component<IProps, IState> {
                                 </div>
                             }
                             <StagedDocs 
-                            selected={context.selectedDoc}
-                            selectDoc={context.selectDoc}
                             documents={context.documents} />
                         </div>
                     }
