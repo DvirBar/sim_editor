@@ -24,9 +24,11 @@ export default class ModifyEditor extends Component<IProps, IState> {
     }
 
     changeName = (name:string) => {
-        this.setState({
-            name
-        })
+        if(name.length <= 30) {
+            this.setState({
+                name
+            })
+        }
     }
 
     changeDocName = () => {  
@@ -55,15 +57,18 @@ export default class ModifyEditor extends Component<IProps, IState> {
             <InfoContext.Consumer>
                 {infoContext =>
                     <div className="modify-editor">
-                        <TextField 
-                        id="outlined-basic"
-                        value={this.state.name}
-                        onChange={e => this.changeName(e.target.value)} 
-                        onBlur={() => this.changeDocName()}
-                        error={infoContext.errors.docErrors[selectedDoc]?.NameError 
-                            ? true : false}
-                        helperText={infoContext.errors.docErrors[selectedDoc]?.NameError}
-                        label="שם הסימולציה" />
+                        <div className="field-container">
+                            <TextField 
+                            id="outlined-basic"
+                            value={this.state.name}
+                            onChange={e => this.changeName(e.target.value)} 
+                            onBlur={() => this.changeDocName()}
+                            error={infoContext.errors.docErrors[selectedDoc]?.NameError 
+                                ? true : false}
+                            helperText={infoContext.errors.docErrors[selectedDoc]?.NameError}
+                            label="שם הסימולציה"
+                            fullWidth={true} />
+                        </div>
                         <Delete 
                         onClick={() => context.removeDoc(selectedDoc)}
                         className="remove-doc" />

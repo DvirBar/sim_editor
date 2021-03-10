@@ -48,7 +48,7 @@ export async function addTitle(
     const text = 'סימולציה'
     context.fillText(text, width/2, height/2)
 
-    context.font = '40px Arial'
+    context.font = '35px Arial'
     context.fillText(name, width/2, height/2 + 100)
     const buffer = canvas.toBuffer()
     const imagePath = path.join(folderPath, 'title.png')

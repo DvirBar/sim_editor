@@ -3,6 +3,10 @@
     justify-content: space-between;
     width: 100%;
 
+    .field-container {
+        width: 25rem;
+    }
+
     .remove-doc {
         color: #777;
         cursor: pointer;
