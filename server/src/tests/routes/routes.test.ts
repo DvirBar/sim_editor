@@ -1,9 +1,7 @@
 import request from 'supertest';
 import app from '../../app';
 import Controllers from '../../controllers';
-import * as utils from '../../utils'
 import { mocked } from 'ts-jest/utils';
-import { postBody } from './mockedData';
 
 jest.mock('../../controllers')
 jest.mock('../../utils')

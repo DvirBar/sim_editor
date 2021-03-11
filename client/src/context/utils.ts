@@ -112,6 +112,11 @@ export const composeDocsUtil = async(
     context.assignErrors(errors)
     
     if(!context.hasErrors(errors)) {
+        console.log({
+            files,
+            options
+        });
+        
         context.setLoading(
             true, 
             'מפיק את הסימולציות, זה עשוי לקחת קצת זמן. ההורדה תחל אוטומטית.')
@@ -159,15 +164,21 @@ export const composeSimulationsArray = (
                 year,
                 date,
                 chapter,
+                index,
                 doc: simDoc
             } = selectedSims[sim]
+
+            const chapterObj = {
+                id: chapter.id,
+                index
+            }
         
             if(simDoc === doc) {
                 let thisSim = simulations[year.toString() + date.id]
                 if(thisSim) {
                     simulations[year.toString() + date.id] = {
                         ...thisSim,
-                        chapters: [...thisSim.chapters, chapter.id]
+                        chapters: [...thisSim.chapters, chapterObj]
                     }
                 }
 
@@ -175,7 +186,7 @@ export const composeSimulationsArray = (
                     simulations[year.toString() + date.id] = {
                         year,
                         date: date.id,
-                        chapters: [chapter.id]
+                        chapters: [chapterObj]
                     }
                 } 
             }

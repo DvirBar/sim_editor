@@ -1,0 +1,14 @@
+.manage-options {
+    display: flex;
+    align-items: center;
+
+    .checkbox-label {
+        &__main {
+            font-size: 1.8rem;
+        }
+
+        &__comment {
+            color: #aaa;
+        }
+    }
+}

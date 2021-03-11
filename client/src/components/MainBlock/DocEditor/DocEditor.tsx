@@ -4,6 +4,7 @@ import ChooseSims from './ChooseSims/ChooseSims'
 import ModifyEditor from './ModifyEditor/ModifyEditor'
 import { SimContext } from '../../../context/SimContext'
 import { InfoContext } from '../../../context/InfoContext'
+import ManageOptions from './ManageOptions/ManageOptions'
 
 export default class DocEditor extends Component {
     render() {
@@ -24,11 +25,16 @@ export default class DocEditor extends Component {
                                     </div>
                                 }
                             </InfoContext.Consumer>
+
+                            <ChooseSims /><br/>
+                            <ManageOptions 
+                            options={context.options}
+                            toggleSuffle={context.toggleShuffle} />
                         </Fragment>
                     }
                 </SimContext.Consumer>
                 
-                <ChooseSims />
+                
             </div>
         )
     }

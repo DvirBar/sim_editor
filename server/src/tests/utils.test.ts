@@ -1,4 +1,4 @@
-import { sliceString } from '../utils'
+import { sliceString } from '../utils/string'
 
 describe('test sliceString function', () => {
     const testString: string = 'myTestString'

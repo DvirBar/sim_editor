@@ -3,7 +3,7 @@ const router = express.Router();
 import fs from 'fs'
 import Controllers from "./controllers";
 import path from "path";
-import { sliceString } from "./utils";
+import { sliceString } from "./utils/string";
 
 // @route   GET api/simList
 // @desc    Get available simulations and chapters

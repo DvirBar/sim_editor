@@ -4,11 +4,10 @@ import { PDFDocument } from 'pdf-lib'
 import { 
     Simulation, 
     GenObj, 
-    Chapter,
+    Chapter
 } from '../interfaces'
 import data, { chaptersMap } from '../data'
-import { numberSeries } from '../utils'
-import { shuffleFisherYates } from '../utils'
+import { numberSeries, shuffleFisherYates } from '../utils/arrays'
 import config from 'config'
 import path from 'path'
 
@@ -38,14 +37,16 @@ async function buildChapters(simulation: Simulation) {
 
     let chapters: Chapter[] = []        
     for(let chapterName of chapterNames) {
+        
         const chapter = getChapterDetails(
             year,
             date,
-            chapterName,
+            chapterName.id,
             mapObj
         )
         chapters.push({
             src: srcPdf,
+            index: chapterName.index,
             ...chapter
         })
     }

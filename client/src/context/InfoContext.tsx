@@ -58,6 +58,7 @@ export default class InfoProvider extends Component<IProps, InfoContextState> {
         }
     }
 
+   
     changeGenError = (error: string) => {
         this.setState(state => ({
             errors: {
@@ -66,7 +67,7 @@ export default class InfoProvider extends Component<IProps, InfoContextState> {
             }
         }))
     }
-
+    
     changeDocError = (
         doc: string, 
         errorType: DocErrorType,

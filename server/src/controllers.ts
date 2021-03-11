@@ -2,7 +2,7 @@ import data from './data'
 import { buildSimFiles, createTempDir } from './services/files'
 import createZip from './services/zip'
 import { File, GenObj, Options } from './interfaces'
-import { getYearMonths, getMonths } from './utils'
+import { getYearMonths, getMonths } from './utils/dataUtils'
  
 export default class Controllers {
     static getData(): GenObj {

@@ -11,6 +11,7 @@ import buildChapters, { shuffleChapters } from './buildChapters'
 import { copyPagesToDoc, initPdfDoc } from './pdfDocs'
 import path from 'path'
 import config from 'config'
+import { orderObjects } from '../utils/arrays'
 
 export async function createTempDir() {
     // Create a temp folder with unique id
@@ -62,6 +63,10 @@ async function buildFile(
     // Shuffle array if requested 
     if(options.shuffleData) {
         chapterArr = shuffleChapters(chapterArr)
+    }
+
+    else {
+        orderObjects(chapterArr)
     }
 
     // Copy extracted pages to a single file and return it

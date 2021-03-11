@@ -3,7 +3,10 @@ import { PDFDocument, PDFFont } from 'pdf-lib'
 export interface Simulation {
     year: string;
     date: string;
-    chapters: string[];
+    chapters: [{
+        id: string
+        index: number
+    }]
 }
 
 export interface File {
@@ -12,14 +15,19 @@ export interface File {
 }
 
 export interface Chapter {
-    src: PDFDocument,
-    name: string;
-    pageIndices: number[],
+    src: PDFDocument
+    name: string
+    index: number
+    pageIndices: number[]
     skip?: boolean
 }
 
 export interface GenObj {
     [key: string]: any
+}
+
+export interface ObjWithIndex extends GenObj {
+    index: number
 }
 
 export interface Options {

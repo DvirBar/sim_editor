@@ -5,7 +5,8 @@ import {
     SelectedSims, 
     Documents, 
     SimMonthItem, 
-    SimChapterItem } from '../interfaces/simData'
+    SimChapterItem, 
+    SimDataOptions} from '../interfaces/simData'
 import { v4 as uuidv4 } from 'uuid'
 import { removeFromObj } from '../utils/objects'
 import { 
@@ -25,6 +26,7 @@ export interface SimContextState {
     selectedSims: SelectedSims
     selectedDoc: string
     documents: Documents
+    options: SimDataOptions
     addSim: (
         year: number, 
         date: SimMonthItem, 
@@ -45,6 +47,7 @@ export interface SimContextState {
         simId: string, 
         sourceIndex: number, 
         destinationIndex: number) => void
+    toggleShuffle: (value: boolean) => void
     composeDocs: () => Promise<string | void>
 }
 
@@ -52,7 +55,10 @@ const defaultContext: SimContextState = {
     simData: [],
     selectedSims: {},
     documents: {},
-    selectedDoc: '',
+    selectedDoc: '', 
+    options: {
+        shuffleData: true
+    },
     addSim: () => {},
     removeSim: () => {},
     createDoc: () => {},
@@ -60,6 +66,7 @@ const defaultContext: SimContextState = {
     changeDocName: () => {},
     removeDoc: () => {},
     changeSimIndex: () => {},
+    toggleShuffle: () => {},
     composeDocs: async() => {}
 }
 
@@ -71,10 +78,7 @@ export default class SimProvider extends Component<IProps, SimContextState> {
         super(props) 
 
         this.state = {
-            simData: [],
-            selectedSims: {},
-            selectedDoc: '',
-            documents: {},
+            ...defaultContext,
             addSim: this.addSim,
             removeSim: this.removeSim,
             createDoc: this.createDoc,
@@ -82,6 +86,7 @@ export default class SimProvider extends Component<IProps, SimContextState> {
             changeDocName: this.changeDocName,
             removeDoc: this.removeDoc,
             changeSimIndex: this.changeSimIndex,
+            toggleShuffle: this.toggleShuffle,
             composeDocs: this.composeDocs
         }
     }
@@ -208,14 +213,20 @@ export default class SimProvider extends Component<IProps, SimContextState> {
         }))
     }
 
+    toggleShuffle = (value: boolean) => {
+        this.setState({
+            options: {
+                shuffleData: value
+            }
+        })
+    }
+
     composeDocs = async() => {
         const url = await composeDocsUtil(
             this.state.documents,
             this.state.selectedSims,
             this.context,
-            {
-                shuffleData: true
-            }
+            this.state.options
         )
 
         this.context.setLoading(false)
