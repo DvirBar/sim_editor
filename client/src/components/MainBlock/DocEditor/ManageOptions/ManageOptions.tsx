@@ -27,7 +27,7 @@ export default class ManageOptions extends Component<IProps> {
                         סדר אקראית &nbsp;
                     </span>
                     <span className="checkbox-label__comment"> 
-                        (אם תסמנו אפשרות זו, סידור הפרקים לא ייחשב)
+                        (משפיע על כל הסימולציות)
                     </span>
                 </label>
                 

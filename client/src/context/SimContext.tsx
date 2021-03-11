@@ -16,6 +16,7 @@ import {
     composeId,
     removeChaptersByDoc } from './utils'
 import { InfoContext } from './InfoContext'
+import { DocErrorType } from '../interfaces/info'
 
 interface IProps {
     children: React.ReactNode
@@ -48,6 +49,7 @@ export interface SimContextState {
         sourceIndex: number, 
         destinationIndex: number) => void
     toggleShuffle: (value: boolean) => void
+    testUniqueName: (name: string, doc: string) => boolean
     composeDocs: () => Promise<string | void>
 }
 
@@ -67,6 +69,7 @@ const defaultContext: SimContextState = {
     removeDoc: () => {},
     changeSimIndex: () => {},
     toggleShuffle: () => {},
+    testUniqueName: () => true,
     composeDocs: async() => {}
 }
 
@@ -87,6 +90,7 @@ export default class SimProvider extends Component<IProps, SimContextState> {
             removeDoc: this.removeDoc,
             changeSimIndex: this.changeSimIndex,
             toggleShuffle: this.toggleShuffle,
+            testUniqueName: this.testUniqueName,
             composeDocs: this.composeDocs
         }
     }
@@ -129,7 +133,9 @@ export default class SimProvider extends Component<IProps, SimContextState> {
             
             this.context.changeGenError('ניתן להוסיף עד 9 סימולציות')
             return state
-        })
+        }, () => this.context.resetDocErrors(
+            this.state.selectedDoc, 
+            DocErrorType.ChaptersError))
     }
 
     removeSim = (
@@ -183,7 +189,7 @@ export default class SimProvider extends Component<IProps, SimContextState> {
                 ...state.documents,
                 [id]: name
             }
-        }))
+        }), () => this.context.resetDocErrors(id, DocErrorType.NameError))
     }
 
     removeDoc = (id: string) => {
@@ -219,6 +225,27 @@ export default class SimProvider extends Component<IProps, SimContextState> {
                 shuffleData: value
             }
         })
+    }
+
+    testUniqueName = (name: string, doc: string) => {
+        const documents = this.state.documents
+        console.log(name);
+        
+        for(let docKey in documents) {
+            console.log(documents[docKey]);
+            
+            if(documents[docKey] === name && docKey !== doc) {
+                this.context.changeDocError(
+                    DocErrorType.NameError,
+                    'כבר קיימת סימולציה עם שם זה',
+                    doc
+                )
+                
+                return false
+            }
+        }
+
+        return true
     }
 
     composeDocs = async() => {

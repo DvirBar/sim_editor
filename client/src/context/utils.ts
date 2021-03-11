@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { DocErrorType, Errors } from '../interfaces/info'
+import { DocErrorType } from '../interfaces/info'
 import { GenObj } from '../interfaces/objects'
 import { Documents, SelectedSims, SimChapterItem, SimDataOptions, SimMonthItem } from '../interfaces/simData'
 import { objectTOArray } from '../utils/objects'
@@ -108,15 +108,9 @@ export const composeDocsUtil = async(
         files,
         errors
     } = composeSimulationsArray(documents, selectedSims, context)
+
     
-    context.assignErrors(errors)
-    
-    if(!context.hasErrors(errors)) {
-        console.log({
-            files,
-            options
-        });
-        
+    if(Object.keys(errors).length === 0) {        
         context.setLoading(
             true, 
             'מפיק את הסימולציות, זה עשוי לקחת קצת זמן. ההורדה תחל אוטומטית.')
@@ -138,6 +132,12 @@ export const composeDocsUtil = async(
         .catch(err => {
             context.changeGenError('התרחשה תקלה בזמן הפקת הקובץ')})
     }
+
+    else {
+        context.setLoading(false)
+        context.pushDocErrors(errors)
+        return
+    }
 }
 
 
@@ -146,16 +146,13 @@ export const composeSimulationsArray = (
     selectedSims: SelectedSims,
     context: InfoContextState) => {
     
-    let errors: Errors = {
-        genError: '',
-        docErrors: {}
-    }
+    let errors: GenObj = {}
 
     let files = []
 
     for(let doc in documents) {
         if(documents[doc] === '') {
-            errors = context.changeDocError(doc, DocErrorType.NameError, 'יש לבחור שם לסימולציה', errors)
+            errors = context.buildDocError(doc, DocErrorType.NameError, 'יש לבחור שם לסימולציה', errors)
         }
 
         let simulations: GenObj = {}
@@ -193,7 +190,7 @@ export const composeSimulationsArray = (
         }
 
         if(Object.keys(simulations).length === 0) {
-            errors = context.changeDocError(
+            errors = context.buildDocError(
                 doc,
                 DocErrorType.ChaptersError,
                 'הסימולציה ריקה, יש לבחור פרקים',

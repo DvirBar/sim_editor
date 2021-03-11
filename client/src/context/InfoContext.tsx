@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { DocErrorType, Errors, Loading } from '../interfaces/info'
+import { GenObj } from '../interfaces/objects'
+import { removeFromObj } from '../utils/objects'
 
 interface IProps {
     children: React.ReactNode
@@ -9,13 +11,18 @@ export interface InfoContextState {
     loading: Loading,
     errors: Errors,
     changeGenError: (error: string) => void
+    pushDocErrors: (errors: GenObj) => void
     changeDocError: (
+        type: DocErrorType, 
+        error: string, 
+        doc: string) => void
+    buildDocError: (
         doc: string, 
         errorType: DocErrorType, 
         error: string,
-        errors: Errors) => Errors,
-    assignErrors: (errors: Errors) => void
+        errors: GenObj) => GenObj
     setLoading: (status: boolean, message?: string) => void
+    resetDocErrors: (doc: string, type: DocErrorType) => void,
     resetErrors: () => Promise<void>
     hasErrors: (errors: Errors) => boolean
 }
@@ -30,13 +37,12 @@ const defaultContext: InfoContextState = {
         docErrors: {}
     },
     changeGenError: () => {},
-    changeDocError: () => ({
-        genError: '',
-        docErrors: {}
-    }),
-    assignErrors: () => {},
+    buildDocError: () => ({}),
+    pushDocErrors: () => {},
+    changeDocError: () => {},
     setLoading: () => {},
     resetErrors: async() => {},
+    resetDocErrors: () => {},
     hasErrors: () => true
 }
 
@@ -50,10 +56,12 @@ export default class InfoProvider extends Component<IProps, InfoContextState> {
         this.state = {
             ...defaultContext,
             changeGenError: this.changeGenError,
+            buildDocError: this.buildDocError,
             changeDocError: this.changeDocError,
-            assignErrors: this.assignErrors,
+            pushDocErrors: this.pushDocErrors,
             setLoading: this.setLoading,
             resetErrors: this.resetErrors,
+            resetDocErrors: this.resetDocErrors,
             hasErrors: this.hasErrors
         }
     }
@@ -68,30 +76,55 @@ export default class InfoProvider extends Component<IProps, InfoContextState> {
         }))
     }
     
-    changeDocError = (
+    buildDocError = (
         doc: string, 
         errorType: DocErrorType,
         error: string,
-        errors: Errors) => {
-        if(errors.genError === '') {
-            errors.genError = 'לא ניתן לשלוח, תקנו את השגיאות בסימולציות המסומנות'
-        }   
-        
-        errors.docErrors = {
-            ...errors.docErrors,
+        errors: GenObj) => {
+        return {
+            ...errors,
             [doc]: {
-                ...errors.docErrors[doc],
+                ...errors[doc],
                 [errorType]: error
             }
         }
-
-        return errors
     }
 
-    assignErrors = (errors: Errors) => {
-        this.setState({
-            errors
-        })
+    pushDocErrors = (errors: GenObj) => {
+
+        this.changeGenError('לא ניתן לשלוח, תקנו את השגיאות בסימולציות המסומנות')
+
+        for(let doc in errors) {
+            this.setState(state => ({
+                errors: {
+                    ...state.errors,
+                    docErrors: {
+                        ...state.errors.docErrors,
+                        [doc]: {
+                            ...state.errors.docErrors[doc],
+                            ...errors[doc]
+                        }
+                    }
+                }
+            }))
+        }
+    }
+
+    changeDocError = (
+        type: DocErrorType,
+        error: string, 
+        doc: string) => {
+        this.setState(state => ({
+            errors: {
+                ...state.errors,
+                docErrors: {
+                    [doc]: {
+                        ...state.errors.docErrors[doc],
+                        [type]: error
+                    }
+                }
+            }
+        }))
     }
 
     resetErrors = async() => {
@@ -103,6 +136,34 @@ export default class InfoProvider extends Component<IProps, InfoContextState> {
         }, () => resolve))
 
         return
+    }
+
+    resetDocErrors = (doc: string, type: DocErrorType) => {
+        
+        const newDocError = removeFromObj(this.state.errors.docErrors[doc], type)
+        
+        this.setState(state => ({
+            errors: {
+                ...state.errors,
+                docErrors: {
+                    ...state.errors.docErrors,
+                    [doc]: {
+                        ...newDocError
+                    }
+                }
+            }
+        }), () => {
+            if(Object.keys(this.state.errors.docErrors[doc])) {
+                const newDocErrors = removeFromObj(this.state.errors.docErrors, doc)
+
+                this.setState(state => ({
+                    errors: {
+                        ...state.errors,
+                        docErrors: newDocErrors
+                    }
+                }))
+            }
+        })
     }
 
     hasErrors = (errors: Errors): boolean => {

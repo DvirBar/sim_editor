@@ -36,7 +36,14 @@ export default class ModifyEditor extends Component<IProps, IState> {
             context,
             selectedDoc
         } = this.props
-        context.changeDocName(selectedDoc, this.state.name)
+
+        if(this.state.name) {
+            const isUnique = context.testUniqueName(this.state.name, selectedDoc)
+
+            if(isUnique) {
+                context.changeDocName(selectedDoc, this.state.name)
+            }
+        }
     }
     
     componentDidUpdate(prevProps: IProps) {
