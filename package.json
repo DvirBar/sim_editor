@@ -47,8 +47,8 @@
     "build": "cd client && npm run build",
     "tsc": "tsc",
     "postinstall": "npm run tsc",
-    "heroku-postbuild": "npm run postinstall && npm run install-client && npm run build",
-    "start": "node dist/app.js"
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "start": "node server/dist/app.js"
   },
   "engines": {
     "node": "12.16.1"
