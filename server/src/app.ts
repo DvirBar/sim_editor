@@ -15,7 +15,7 @@ import routes from './routes'
 app.use('/api', routes)
 
 if(process.env.NODE_ENV = 'production') {
-    
+    app.use(express.static('../../client/build'))
 }
 
 
