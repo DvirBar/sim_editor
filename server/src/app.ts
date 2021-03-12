@@ -12,17 +12,13 @@ app.use(morgan('tiny'));
 
 // App routes
 import routes from './routes'
+import { sliceString } from './utils/string';
 
 app.use('/api', routes)
 
-if(process.env.NODE_ENV = 'production') {
+if(process.env.NODE_ENV === 'production') {
     app.use(express.static('../../client/build'))
-
-    app.get('*', (req, res) => {
-        res.sendFile('../../client/build/index.html')
-    })
 }
-
 
 // Start server
 const port = parseInt(<string>process.env.PORT) || 5000
