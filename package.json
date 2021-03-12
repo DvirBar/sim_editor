@@ -45,7 +45,8 @@
     "test": "jest",
     "install-client": "cd client && npm install",
     "build": "cd client && npm run build",
-    "postinstall": "tsc",
+    "tsc": "tsc",
+    "postinstall": "npm run tsc",
     "heroku-postbuild": "npm run postinstall && npm run install-client && npm run build",
     "start": "node dist/app.js"
   },
