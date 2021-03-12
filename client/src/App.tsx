@@ -17,7 +17,7 @@ const theme = createMuiTheme({
       main: '#3880eb',
     },
     secondary: {
-      main: '#fff'
+      main: '#ddd'
     }
   },
   typography: {
@@ -26,7 +26,7 @@ const theme = createMuiTheme({
   direction: 'rtl'
 })
 
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = 'http://10.0.0.18:5000';
 axios.defaults.headers['Content-Type'] = 'application/json';
 
 

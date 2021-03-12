@@ -14,3 +14,10 @@
         border-radius: 0.5rem;
     }
 }
+
+@media (max-width: 1024px) {
+    .doc-editor {
+        border: none;
+        padding: 0;
+    }
+}

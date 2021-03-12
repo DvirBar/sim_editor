@@ -8,8 +8,17 @@
     flex-direction: column;
     row-gap: 2rem;
 
-    &__create-button {
-        align-self: flex-start;
+    &__top-bar {
+        display: flex;
+        justify-content: space-between;
+
+        .display-staged-sims {
+            display: none;
+        }
+
+        &__create-button {
+            align-self: flex-start;
+        }
     }
 
     &__body {
@@ -29,8 +38,16 @@
 }
 
 @media (max-width: 1024px) {
-    .mainBlock {
-        width: 100%;
-        padding: 1rem;
+    .main-block {
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+
+        .display-staged-sims {
+            display: flex;
+        }
+
+        &__body {
+            grid-template-columns: 1fr;
+        }
     }
 }

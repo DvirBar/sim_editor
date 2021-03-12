@@ -38,3 +38,9 @@ body {
     row-gap: 3rem;
     width: 80%;
 }
+
+@media (max-width: 1024px) {
+    .main-container {
+        width: 100%;
+    }
+}

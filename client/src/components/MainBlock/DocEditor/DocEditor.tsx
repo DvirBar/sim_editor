@@ -5,37 +5,39 @@ import ModifyEditor from './ModifyEditor/ModifyEditor'
 import { SimContext } from '../../../context/SimContext'
 import { InfoContext } from '../../../context/InfoContext'
 import ManageOptions from './ManageOptions/ManageOptions'
+import { Button } from '@material-ui/core'
 
 export default class DocEditor extends Component {
     render() {
         return (
-            <div className="doc-editor">
-                <SimContext.Consumer>
-                    {context => 
-                        <Fragment>
-                            <ModifyEditor 
-                            context={context}
-                            selectedDoc={context.selectedDoc} />  
+            <div className="doc-editor-wrapper">
+                <div className="doc-editor">
+                    <SimContext.Consumer>
+                        {context => 
+                            <Fragment>
+                                <ModifyEditor 
+                                context={context}
+                                selectedDoc={context.selectedDoc} />  
 
-                            <InfoContext.Consumer>
-                                {infoContext => 
-                                    infoContext.errors.docErrors[context.selectedDoc]?.ChaptersError &&
-                                    <div className="errors">
-                                        {infoContext.errors.docErrors[context.selectedDoc]?.ChaptersError}
-                                    </div>
-                                }
-                            </InfoContext.Consumer>
+                                <InfoContext.Consumer>
+                                    {infoContext => 
+                                        infoContext.errors.docErrors[context.selectedDoc]?.ChaptersError &&
+                                        <div className="errors">
+                                            {infoContext.errors.docErrors[context.selectedDoc]?.ChaptersError}
+                                        </div>
+                                    }
+                                </InfoContext.Consumer>
 
-                            <ChooseSims /><br/>
-                            <ManageOptions 
-                            options={context.options}
-                            toggleSuffle={context.toggleShuffle} />
-                        </Fragment>
-                    }
-                </SimContext.Consumer>
-                
-                
+                                <ChooseSims /><br/>
+                                <ManageOptions 
+                                options={context.options}
+                                toggleSuffle={context.toggleShuffle} />
+                            </Fragment>
+                        }
+                    </SimContext.Consumer> 
+                </div>
             </div>
+            
         )
     }
 }
