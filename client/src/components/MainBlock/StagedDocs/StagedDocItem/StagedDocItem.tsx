@@ -6,6 +6,7 @@ import './StagedDocItem.css'
 
 interface IProps {
     id: string
+    changeDisplay: (status: boolean) => void
 }
 
 export default class StagedDocItem extends Component<IProps> {
@@ -29,7 +30,9 @@ export default class StagedDocItem extends Component<IProps> {
                         ? 'no-name' : ''}
                         ${infoContext.errors.docErrors[id] ? 'error' : ''}`}
 
-                        onClick={() => simContext.selectDoc(id)}>
+                        onClick={() =>{
+                            this.props.changeDisplay(false)
+                            simContext.selectDoc(id)}}>
                             {simContext.documents[id] === '' 
                             ? '- ללא שם -' : simContext.documents[id]}
                         </Button>    

@@ -22,7 +22,7 @@ export default class ChosenChapters extends Component {
                 ?   <ChosenChaptersList simsArray={simsArray} />
                 :   <div className="no-chapters-info">
                         <p className="no-chapters-info__primary">אין פרקים עדיין</p>
-                        <p className="no-chapters-info__secondary">הוסיפו פרקים מהרשימה מימין</p>
+                        <p className="no-chapters-info__secondary">הוסיפו פרקים מהרשימה שמימין</p>
                     </div>
                 }
             </div>            

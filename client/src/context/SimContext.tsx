@@ -216,7 +216,12 @@ export default class SimProvider extends Component<IProps, SimContextState> {
                 simId,
                 sourceIndex,
                 destinationIndex)
-        }))
+        }), () => this.setState(state => ({
+            options: {
+                ...state.options,
+                shuffleData: false
+            }
+        })))
     }
 
     toggleShuffle = (value: boolean) => {

@@ -1,4 +1,4 @@
-import React, { Component, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { Documents } from '../../../interfaces/simData'
 import useOnClickOutside from '../../Common/OnClickOutside/useOnClickOutside'
 import StagedDocItem from './StagedDocItem/StagedDocItem'
@@ -44,6 +44,7 @@ const StagedDocs: React.FC<IProps> = ({
                         {Object.keys(documents).map(key =>
                             <StagedDocItem 
                             key={key}
+                            changeDisplay={changeDisplay}
                             id={key} />
                         )}
                     </div>
