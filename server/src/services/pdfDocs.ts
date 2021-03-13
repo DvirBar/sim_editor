@@ -4,6 +4,7 @@ import path from 'path'
 import { PDFDocument, PDFPage } from 'pdf-lib'
 import { Chapter } from '../interfaces'
 import { createCanvas } from 'canvas'
+import { v4 as uuidv4 } from 'uuid'
 
 
 export async function initPdfDoc(
@@ -51,7 +52,9 @@ export async function addTitle(
     context.font = '35px Arial'
     context.fillText(name, width/2, height/2 + 100)
     const buffer = canvas.toBuffer()
-    const imagePath = path.join(folderPath, 'title.png')
+
+    const id = uuidv4()
+    const imagePath = path.join(folderPath, `title${id}.png`)
     await fs.writeFile(imagePath, buffer)
 
     return imagePath
