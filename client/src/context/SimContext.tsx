@@ -131,7 +131,7 @@ export default class SimProvider extends Component<IProps, SimContextState> {
                 }
             }
             
-            this.context.changeGenError('ניתן להוסיף עד 9 סימולציות')
+            this.context.changeGenError('ניתן להוסיף עד 9 פרקים')
             return state
         }, () => this.context.resetDocErrors(
             this.state.selectedDoc, 
@@ -234,7 +234,6 @@ export default class SimProvider extends Component<IProps, SimContextState> {
 
     testUniqueName = (name: string, doc: string) => {
         const documents = this.state.documents
-        console.log(name);
         
         for(let docKey in documents) {
             console.log(documents[docKey]);

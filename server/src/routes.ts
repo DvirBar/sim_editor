@@ -3,7 +3,7 @@ const router = express.Router();
 import fs from 'fs'
 import Controllers from "./controllers";
 import path from "path";
-import { sliceString } from "./utils/string";
+import config from 'config';
 
 // @route   GET api/simList
 // @desc    Get available simulations and chapters
@@ -26,10 +26,8 @@ router.post("/generateSimulations", async (req: Request, res: Response) => {
             zipPath,
             tempFolderPath
         } = await Controllers.createSimulations(files, options);
-
-        const dirname = sliceString(__dirname, "src");
         
-        res.download(path.join(dirname, zipPath), 'mySimulations.zip', err => {
+        res.download(path.join('assets', zipPath), 'mySimulations.zip', err => {
             console.log("Sent zip file");
             
             

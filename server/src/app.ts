@@ -12,8 +12,6 @@ app.use(morgan('tiny'));
 // App routes
 import routes from './routes'
 
-
-
 app.use('/api', routes)
 
 if(process.env.NODE_ENV === 'production') {

@@ -91,7 +91,7 @@ async function iterateSimulations(simulations: Simulation[]) {
     return Promise.all(promises)
            .then(chpatersArr => {
                let chapters: Chapter[] = []
-
+            
                for(let chaptersItem of chpatersArr) {
                    chapters = [...chapters, ...chaptersItem]
                }
