@@ -88,6 +88,23 @@ export const chaptersMap: GenObj = {
     },
     2015: {
         "april": {
+            essay: {
+                start: 2,
+                end: 3,
+                skip: true
+            },
+            v1: {
+                start: 4,
+                end: 11
+            },
+            v2: {
+                start: 12,
+                end: 19
+            },
+            q1: {
+                start: 20,
+                end: 27
+            },
             e1: {
                 start: 29,
                 end: 36
