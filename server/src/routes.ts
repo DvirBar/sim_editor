@@ -27,13 +27,12 @@ router.post("/generateSimulations", async (req: Request, res: Response) => {
             tempFolderPath
         } = await Controllers.createSimulations(files, options);
         
-        res.download(path.join('assets', zipPath), 'mySimulations.zip', err => {
-            console.log("Sent zip file");
-            
-            
+        res.download(zipPath, 'mySimulations.zip', err => {
             if(err) {
                 console.error(err)
             }
+
+            console.log("Sent zip file");
 
             try {
                 fs.rmdirSync(tempFolderPath, { recursive: true })

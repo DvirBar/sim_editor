@@ -5,7 +5,6 @@ import ModifyEditor from './ModifyEditor/ModifyEditor'
 import { SimContext } from '../../../context/SimContext'
 import { InfoContext } from '../../../context/InfoContext'
 import ManageOptions from './ManageOptions/ManageOptions'
-import { Button } from '@material-ui/core'
 
 export default class DocEditor extends Component {
     render() {

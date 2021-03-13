@@ -44,10 +44,10 @@
     "dev": "nodemon server/src/app.ts",
     "test": "jest",
     "install-client": "cd client && npm install",
-    "build": "cd client && npm run build",
+    "build-client": "cd client && npm run build",
     "tsc": "cd server && tsc",
     "postinstall": "npm run tsc",
-    "heroku-postbuild": "npm run install-client && npm run build",
+    "heroku-postbuild": "npm run install-client && npm run build-client",
     "start": "node server/dist/app.js"
   },
   "engines": {

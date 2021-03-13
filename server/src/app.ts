@@ -1,11 +1,9 @@
 import express, { Application } from 'express';
-import cors from 'cors';
 import morgan from 'morgan'
 
 const app: Application = express()
 
 app.use(express.json());
-app.use(cors());
 app.use(morgan('tiny'));
 
 
@@ -17,6 +15,8 @@ app.use('/api', routes)
 if(process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'))
 }
+
+app.use(express.static('client/build'))
 
 // Start server
 const port = parseInt(<string>process.env.PORT) || 5000

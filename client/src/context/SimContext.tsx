@@ -236,7 +236,6 @@ export default class SimProvider extends Component<IProps, SimContextState> {
         const documents = this.state.documents
         
         for(let docKey in documents) {
-            console.log(documents[docKey]);
             
             if(documents[docKey] === name && docKey !== doc) {
                 this.context.changeDocError(
