@@ -26,7 +26,7 @@ const theme = createMuiTheme({
   direction: 'rtl'
 })
 
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = 'https://sim-editor.herokuapp.com';
 axios.defaults.headers['Content-Type'] = 'application/json';
 
 
