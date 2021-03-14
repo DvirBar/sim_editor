@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
 import morgan from 'morgan'
+import enforce from 'express-sslify'
 
 const app: Application = express()
 
@@ -14,6 +15,7 @@ app.use('/api', routes)
 
 if(process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'))
+    app.use(enforce.HTTPS({ trustProtoHeader: true }))
 }
 
 // Start server
