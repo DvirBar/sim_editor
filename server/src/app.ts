@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import morgan from 'morgan'
 import http from 'http'
 import enforce from 'express-sslify'
+import cors from 'cors'
 
 const app: Application = express()
 
@@ -15,6 +16,10 @@ import routes from './routes'
 if(process.env.NODE_ENV === 'production') {
     app.use(enforce.HTTPS({ trustProtoHeader: true }))
     app.use(express.static('client/build'))
+}
+
+if(process.env.NODE_ENV !== 'production') {
+    app.use(cors());
 }
 
 app.use('/api', routes)
