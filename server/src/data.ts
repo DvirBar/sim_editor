@@ -18,15 +18,15 @@ const data: SimData = {
         },
         {
             min: 2018,
-            max: 2020,
+            max: 2021,
             sims: ["spring", "summer", "fall", "winter"]
         },
-        {
-            min: 2021,
-            max: 2021,
-            sims: ["spring", "summer", "fall"],
-            isMax: true
-        }
+        // {
+        //     min: 2021,
+        //     max: 2021,
+        //     sims: ["spring", "summer", "fall", ],
+        //     isMax: true
+        // }
     ],
     excludeChapters: {
         2015: {
