@@ -1,5 +1,5 @@
 import { SimData, GenObj } from "./interfaces"
-
+//
 const data: SimData = {
     years: {
         min: 2012,
