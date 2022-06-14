@@ -3,7 +3,7 @@ import { SimData, GenObj } from "./interfaces"
 const data: SimData = {
     years: {
         min: 2012,
-        max: 2021
+        max: 2022
     },
     monthsList: [
         {
