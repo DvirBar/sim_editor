@@ -22,8 +22,8 @@ const data: SimData = {
             sims: ["spring", "summer", "fall", "winter"]
         },
         {
-            min: 2021,
-            max: 2021,
+            min: 2022,
+            max: 2022,
             sims: ["spring"],
             isMax: true
         }
