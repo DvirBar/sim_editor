@@ -27,7 +27,7 @@ const theme = createMuiTheme({
 })
 
 if(process.env.NODE_ENV === 'production') {
-  axios.defaults.baseURL = 'https://sim-editor.herokuapp.com';
+  axios.defaults.baseURL = 'https://sim-editor-static.onrender.com';
 }
 
 else {
