@@ -46,7 +46,7 @@
     "install-client": "cd client && npm install",
     "build-client": "cd client && npm run build",
     "run-client": "npm run install-client && npm run build-client",
-    "build-server": "cd server && tsc",
+    "build-server": "npm install && cd server && tsc",
     "start": "node server/dist/app.js",
     "dev": "nodemon server/src/app.ts",
     "test": "cd server && jest"
